@@ -14,6 +14,7 @@ from .demo_inputs import (
     demo_recommendations,
 )
 from .market import load_market
+from .recovery import copy_paper_database
 from .research import DEFAULT_EVALUATED_AT, DEFAULT_HORIZON_SESSIONS, read_research_run, run_research
 from .shadow import SHADOW_ENGINE_VERSION, evaluate_shadow, summarize_shadow
 from .store import PaperStore
@@ -90,6 +91,14 @@ def main(argv=None):
     report.add_argument("run_id")
     report.add_argument("--db", required=True)
 
+    for name, help_text in (
+        ("backup", "save a verified copy of a paper database"),
+        ("restore", "restore a verified paper database to a new file"),
+    ):
+        operation = commands.add_parser(name, help=help_text)
+        operation.add_argument("--db", required=True, help="source paper SQLite file")
+        operation.add_argument("--to", required=True, help="new destination SQLite file")
+
     args = parser.parse_args(argv)
     try:
         if args.command == "demo":
@@ -103,6 +112,8 @@ def main(argv=None):
                 "predictive_metrics": run["predictive"]["metrics"],
                 "economic": run["economic"],
             }
+        elif args.command in ("backup", "restore"):
+            result = copy_paper_database(args.db, args.to)
         else:
             with PaperStore(args.db, readonly=True) as paper:
                 if args.command == "decisions":
