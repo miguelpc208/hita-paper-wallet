@@ -14,6 +14,7 @@ from .demo_inputs import (
     demo_recommendations,
 )
 from .market import load_market
+from .research import DEFAULT_EVALUATED_AT, DEFAULT_HORIZON_SESSIONS, read_research_run, run_research
 from .shadow import SHADOW_ENGINE_VERSION, evaluate_shadow, summarize_shadow
 from .store import PaperStore
 from .wallet import WalletConfig, read_wallet_run, simulate_wallet
@@ -78,8 +79,14 @@ def main(argv=None):
 
     decisions = commands.add_parser("decisions", help="read frozen recommendations")
     decisions.add_argument("--db", required=True)
+    research = commands.add_parser("research", help="compare synthetic research baselines out of sample")
+    research.add_argument("--db", default=":memory:", help="paper SQLite file, or in-memory by default")
+    research.add_argument("--as-of", default=DEFAULT_EVALUATED_AT, type=_utc)
+    research.add_argument("--horizon-sessions", default=DEFAULT_HORIZON_SESSIONS, type=int)
+    research.add_argument("--full", action="store_true", help="include dated features, predictions and outcome provenance")
+
     report = commands.add_parser("report", help="read a saved evaluation by run ID")
-    report.add_argument("kind", choices=("shadow", "wallet"))
+    report.add_argument("kind", choices=("shadow", "wallet", "research"))
     report.add_argument("run_id")
     report.add_argument("--db", required=True)
 
@@ -87,6 +94,15 @@ def main(argv=None):
     try:
         if args.command == "demo":
             result = run_demo(args.db, as_of=args.as_of)
+        elif args.command == "research":
+            run = run_research(args.db, as_of=args.as_of, horizon_sessions=args.horizon_sessions)
+            result = run if args.full else {
+                "run_id": run["run_id"],
+                "protocol": run["protocol"],
+                "inputs": {key: value for key, value in run["inputs"].items() if key != "evidence_digests"},
+                "predictive_metrics": run["predictive"]["metrics"],
+                "economic": run["economic"],
+            }
         else:
             with PaperStore(args.db, readonly=True) as paper:
                 if args.command == "decisions":
@@ -95,6 +111,8 @@ def main(argv=None):
                     ]}
                 elif args.kind == "shadow":
                     result = paper.shadow_run(args.run_id)
+                elif args.kind == "research":
+                    result = read_research_run(paper, args.run_id)
                 else:
                     result = read_wallet_run(paper.db, args.run_id)
     except (OSError, ValueError, sqlite3.Error) as error:

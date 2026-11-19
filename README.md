@@ -4,7 +4,7 @@
 
 # HITA — A0 Synthetic Financial Foundation
 
-For the synthetic recommendation and paper-wallet module, see [HITA synthetic paper wallet](docs/PAPER_WALLET.md). The sections below describe the A0 baseline.
+For the synthetic recommendation and paper-wallet module, see [HITA synthetic paper wallet](docs/PAPER_WALLET.md). For the walk-forward research command and its results, see [Synthetic research baseline](docs/RESEARCH_BASELINE.md). The sections below describe the A0 baseline.
 
 **Estado:** protótipo técnico local A0, verificável com dados exclusivamente sintéticos. **Não é uma aplicação de trading operacional, não está certificada independentemente e não permite ordens financeiras.**
 

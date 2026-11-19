@@ -34,25 +34,32 @@ def assess_synthetic_add(
     *,
     synthetic_capital_base: Decimal | None,
     open_tactical_risk: Decimal | None,
+    commission: Decimal = Decimal(DEMO_COMMISSION_DEC),
+    entry_price_adjustment: Decimal = Decimal("0"),
 ) -> PolicyCheck:
     """Assess a new unleveraged position using the synthetic scenario's assumptions."""
     if synthetic_capital_base is None:
         return PolicyCheck(PolicyResult.BLOCK, ("MISSING_APPROVED_DENOMINATOR",))
     if open_tactical_risk is None:
         return PolicyCheck(PolicyResult.BLOCK, ("MISSING_OPEN_TACTICAL_RISK",))
-    inputs = (reference_price, quantity, synthetic_capital_base, open_tactical_risk)
+    inputs = (
+        reference_price, quantity, synthetic_capital_base, open_tactical_risk,
+        commission, entry_price_adjustment,
+    )
     if (
         any(not isinstance(value, Decimal) or not value.is_finite() for value in inputs)
         or min(reference_price, quantity, synthetic_capital_base) <= 0
         or open_tactical_risk < 0
+        or commission < 0
+        or not 0 <= entry_price_adjustment < 1
     ):
         return PolicyCheck(PolicyResult.BLOCK, ("INVALID_SYNTHETIC_RISK_INPUT",))
 
     with localcontext(_RISK_CONTEXT):
         entry_ceiling = reference_price + Decimal(DEMO_ENTRY_BUFFER_DEC)
-        position_notional = entry_ceiling * quantity
+        position_notional = entry_ceiling * (1 + entry_price_adjustment) * quantity
         # Allow a complete loss of the unleveraged position and both fixed fees.
-        planned_loss = position_notional + 2 * Decimal(DEMO_COMMISSION_DEC)
+        planned_loss = position_notional + 2 * commission
         reasons = []
         if planned_loss > synthetic_capital_base * TRADE_RISK_LIMIT:
             reasons.append("TACTICAL_TRADE_RISK_LIMIT")

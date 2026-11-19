@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hita-a0"
-version = "0.2.2+paper.1"
+version = "0.2.2+paper.2"
 description = "Local synthetic financial ledger, decision research and paper wallet for HITA"
 requires-python = ">=3.11"
 dependencies = []
