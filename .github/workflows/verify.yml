@@ -1,0 +1,59 @@
+name: Verify HITA
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: ${{ matrix.os }} · Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.11', '3.12']
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Report runtime versions
+        run: python -c "import platform, sqlite3; print(platform.platform()); print('Python', platform.python_version()); print('SQLite', sqlite3.sqlite_version)"
+
+      - name: Run regression tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Build wheel
+        run: python -m pip wheel --no-deps --wheel-dir (Join-Path $env:RUNNER_TEMP 'hita-wheel') .
+
+      - name: Install wheel
+        run: |
+          $wheelDirectory = Join-Path $env:RUNNER_TEMP 'hita-wheel'
+          $wheels = @(Get-ChildItem -LiteralPath $wheelDirectory -Filter '*.whl' -File)
+          if ($wheels.Count -ne 1) {
+            throw "Expected one wheel in $wheelDirectory, found $($wheels.Count)"
+          }
+          python -m pip install --no-deps ($wheels[0].FullName)
+
+      - name: Verify installed commands
+        run: |
+          $smokeDirectory = New-Item -ItemType Directory -Path (Join-Path $env:RUNNER_TEMP 'hita-installed-smoke')
+          Set-Location -LiteralPath $smokeDirectory.FullName
+          python (Join-Path $env:GITHUB_WORKSPACE 'scripts/verify_release.py')
