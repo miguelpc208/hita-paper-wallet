@@ -1,0 +1,15 @@
+{
+  "mode": "SYNTHETIC_ONLY",
+  "fixture": "GOLD-001",
+  "brk_cash_eur": "13111",
+  "bank_cash_eur": "1500",
+  "shares": "35",
+  "remaining_acquisition_cost_eur": "1751.75",
+  "realized_gain_eur": "347.75",
+  "market_price_eur": "120",
+  "consolidated_nav_eur": "18811",
+  "accepted_events": 12,
+  "accepted_postings": 23,
+  "sqlite_integrity": "ok",
+  "referential_financial_errors": []
+}

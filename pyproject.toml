@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=65"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hita-a0"
+version = "0.2.2+paper.1"
+description = "Local synthetic financial ledger, decision research and paper wallet for HITA"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+hita-a0 = "hita_a0.cli:main"
+hita-paper = "hita_paper.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["hita_a0*", "hita_paper*", "migrations"]
+
+[tool.setuptools.package-data]
+hita_paper = ["synthetic_market_v1.json"]
+migrations = ["*.sql"]

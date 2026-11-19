@@ -1,0 +1,20 @@
+{
+  "classification": "SYNTHETIC_ONLY",
+  "assurance": "INTERNAL_READ_ONLY_NOT_INDEPENDENT",
+  "status": "PASS_LOCAL_CHECKS",
+  "tables": 30,
+  "migrations": 5,
+  "accepted_events": 12,
+  "accepted_postings": 23,
+  "source_record_hash_mismatches": 0,
+  "accepted_events_missing_verified_sources": 0,
+  "lot_quantity_mismatches": [],
+  "invalid_obligation_count": 0,
+  "double_sale_reversal_count": 0,
+  "sqlite_integrity_check": "ok",
+  "foreign_key_issues": 0,
+  "schema_sha256": "cad509460c32700ee1820465a71cbead8835217ecbd42a8b574c436d71ec959f",
+  "original_source_artifact_bytes_verified": false,
+  "independent_oracle_approvals": 0,
+  "issues": []
+}

@@ -1,0 +1,140 @@
+{
+  "project": "HITA-A0",
+  "version": "0.2.0",
+  "date": "2026-11-14",
+  "classification": "SYNTHETIC_ONLY",
+  "python_version": "3.13.5",
+  "sqlite_version": "3.46.1",
+  "a0_tables": 30,
+  "migration_groups": 5,
+  "test_count": 62,
+  "test_outcome": "PASS",
+  "independent_signoffs": 0,
+  "design_frozen": false,
+  "migration_records": [
+    {
+      "version": "001_governance_sources",
+      "definition_sha256": "9570da22fa02911cc30f1f26be4007389ac6b00a962c8f9632bf747079e720a9",
+      "schema_sha256": "488797393226d9bd52b8e22020afc12b6a3d7cb81ad9d45aa117cd6489d534b2"
+    },
+    {
+      "version": "002_references_statements",
+      "definition_sha256": "e7e82d254d36303332da997c58ac0fd597a4d256664a221e0ed1eaf0f60abfc2",
+      "schema_sha256": "8e197a4ed84702346e769949cc0ba5f317b1d03711eedb40ffaa5eaea34cd7ae"
+    },
+    {
+      "version": "003_opening_templates",
+      "definition_sha256": "77b5738ca314774346899e66854a59a4af298e3d52bc2e8f358507adf4c1b314",
+      "schema_sha256": "a1f2481bb6df3d240a15706de8e43e1113fe903d180ce83e90f094cd887890ae"
+    },
+    {
+      "version": "004_financial_ledger",
+      "definition_sha256": "3bdb1f83a5f33ffc744ff9624000abce57941b203881fbfb66425afb40e2f119",
+      "schema_sha256": "a934a70425476424ed844d1fe4041db554f2a04d370f64c29d1f619bad08bc22"
+    },
+    {
+      "version": "005_reconciliation",
+      "definition_sha256": "693a00076b0803da8cc880048eeb41ec0ff87f8fdaba01eb497d421fb65e129f",
+      "schema_sha256": "cad509460c32700ee1820465a71cbead8835217ecbd42a8b574c436d71ec959f"
+    }
+  ],
+  "actual_schema_sha256": "cad509460c32700ee1820465a71cbead8835217ecbd42a8b574c436d71ec959f",
+  "files": [
+    {
+      "path": "hita_a0/__init__.py",
+      "bytes": 186,
+      "sha256": "998fd6d99cd1a975bc55d9ad81e8a112883bf23b6d919027969cc5e15eb216e7"
+    },
+    {
+      "path": "hita_a0/assurance.py",
+      "bytes": 7710,
+      "sha256": "382cdd8f9c94c5773e9ec42c494c4337f8bfc50ddd719bd21c6ae40ffbf298cd"
+    },
+    {
+      "path": "hita_a0/cli.py",
+      "bytes": 4017,
+      "sha256": "0a805b14885947b3fd1185553cc0759070e9d1fbb735ce84dcac262e21f38f38"
+    },
+    {
+      "path": "hita_a0/ledger.py",
+      "bytes": 55805,
+      "sha256": "1fd48e4282ee3be90a5f7f028c8495f8209fae932fed40eac573f84609769d6e"
+    },
+    {
+      "path": "hita_a0/money.py",
+      "bytes": 2244,
+      "sha256": "a65a28fdb1dc0af888444ea46c20e74cdac63ff1eb562df5e76ecc4c0f3985c4"
+    },
+    {
+      "path": "hita_a0/schema.py",
+      "bytes": 3382,
+      "sha256": "22dfce792eeae406f43c9a0f03d5aa348b2d75034eb98c92318393cd1210ba11"
+    },
+    {
+      "path": "migrations/001_governance_sources.sql",
+      "bytes": 4226,
+      "sha256": "9570da22fa02911cc30f1f26be4007389ac6b00a962c8f9632bf747079e720a9"
+    },
+    {
+      "path": "migrations/002_references_statements.sql",
+      "bytes": 4970,
+      "sha256": "e7e82d254d36303332da997c58ac0fd597a4d256664a221e0ed1eaf0f60abfc2"
+    },
+    {
+      "path": "migrations/003_opening_templates.sql",
+      "bytes": 3569,
+      "sha256": "77b5738ca314774346899e66854a59a4af298e3d52bc2e8f358507adf4c1b314"
+    },
+    {
+      "path": "migrations/004_financial_ledger.sql",
+      "bytes": 13516,
+      "sha256": "3bdb1f83a5f33ffc744ff9624000abce57941b203881fbfb66425afb40e2f119"
+    },
+    {
+      "path": "migrations/005_reconciliation.sql",
+      "bytes": 2016,
+      "sha256": "693a00076b0803da8cc880048eeb41ec0ff87f8fdaba01eb497d421fb65e129f"
+    },
+    {
+      "path": "tests/test_gold.py",
+      "bytes": 14359,
+      "sha256": "a99a04f500c5c131b0c7892ed4576d713ea6c7166a0f7111fef32e97bab6584d"
+    },
+    {
+      "path": "tests/test_hardening.py",
+      "bytes": 11028,
+      "sha256": "581ee66ce7a58246d5ca16ceeace4c55d0e25fbd6c4e899d9f6744ced4339ea8"
+    },
+    {
+      "path": "tests/test_integrity.py",
+      "bytes": 7277,
+      "sha256": "8a537873748f0cd3503c62b26ada60f22e5acf80fa917c653eb64519bd89a93e"
+    },
+    {
+      "path": "tests/test_variants.py",
+      "bytes": 7774,
+      "sha256": "bf3ab4c740a031dab1836f0d7725c40be849fd3929634c4833f1561a27825025"
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "bytes": 1604,
+      "sha256": "925e74a6f24ecadc500a1af55b8d51edf280a2837896649543a5acfc5b6cfa73"
+    },
+    {
+      "path": "docs/STATUS_AND_GATES.md",
+      "bytes": 1351,
+      "sha256": "6c32b4594e24f6d589ec2352ec56dcc045bee031050c9e7a272a18194d950ff0"
+    },
+    {
+      "path": "docs/TECHNICAL_REVIEW_v0.2.md",
+      "bytes": 3894,
+      "sha256": "8e89315787a31e1f6dab30d5f1538662f929e87a871dbc0c05af6165a279ab9c"
+    },
+    {
+      "path": "docs/VALIDATION_REPORT.md",
+      "bytes": 1720,
+      "sha256": "685352b289bc39bd43713679a990eeeb94c6e19bca51b4613c7d5baee3685808"
+    }
+  ],
+  "source_artifact_bytes_independently_verified": false
+}

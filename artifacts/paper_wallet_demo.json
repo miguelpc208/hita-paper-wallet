@@ -1,0 +1,1922 @@
+{
+  "schema_version": "hita.paper.demo.v1",
+  "mode": "PAPER_ONLY",
+  "data_class": "SYNTHETIC",
+  "evaluated_at": "2026-03-13T17:00:00Z",
+  "market_manifest_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+  "decision_policy_assumptions": {
+    "fictional_risk_reference_eur_dec": "100000.00",
+    "decision_price_buffer_eur_dec": "10.00",
+    "reference_commission_per_side_eur_dec": "0.50",
+    "loss_basis": "FULL_UNLEVERAGED_POSITION_PLUS_TWO_FEES",
+    "cash_and_risk_reference_are_separate": true,
+    "approved_capital_base_rule_status": "UNRESOLVED"
+  },
+  "recommendations": [
+    {
+      "recommendation_id": "demo-abstain",
+      "decision_at": "2026-01-28T16:30:00Z",
+      "known_as_of": "2026-01-28T16:30:00Z",
+      "instrument_id": "EQ1_SYNTHETIC",
+      "action": "ABSTAIN",
+      "horizon_trading_days": 20,
+      "source_snapshot_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+      "model_version": "synthetic-price-rule-v1",
+      "risk_policy_version": "synthetic-risk-v1",
+      "policy_result": "REVIEW",
+      "reason_codes": [
+        "SYNTHETIC_NEUTRAL_PRICE_RANGE"
+      ],
+      "benchmark_id": "BENCHMARK_SYNTHETIC",
+      "cost_model_id": "synthetic-cost-v1",
+      "reference_price_dec": "103.00",
+      "evidence_links": [
+        {
+          "observation_id": "EQ1_SYNTHETIC/2026-01-28/CLOSE/1",
+          "instrument_id": "EQ1_SYNTHETIC",
+          "source_manifest_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+          "effective_at": "2026-01-28T16:00:00Z",
+          "published_at": "2026-01-28T16:01:00Z",
+          "available_at": "2026-01-28T16:05:00Z",
+          "kind": "MARKET_PRICE"
+        }
+      ],
+      "quantity_dec": null,
+      "capital_base_dec": null,
+      "planned_loss_dec": null,
+      "strategy_sleeve": "SATELLITE",
+      "model_id": "SYNTHETIC_PRICE_RULE",
+      "schema_version": "hita.decision.v1",
+      "mode": "PAPER_ONLY",
+      "status": "FROZEN",
+      "content_sha256": "e899032bab367639a878d853fde110d88ad16afd1171730be9fbc6c1dd2d02bf"
+    },
+    {
+      "recommendation_id": "demo-add",
+      "decision_at": "2026-01-15T16:30:00Z",
+      "known_as_of": "2026-01-15T16:30:00Z",
+      "instrument_id": "EQ1_SYNTHETIC",
+      "action": "CONSIDER_ADD",
+      "horizon_trading_days": 20,
+      "source_snapshot_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+      "model_version": "synthetic-price-rule-v1",
+      "risk_policy_version": "synthetic-risk-v1",
+      "policy_result": "ALLOW",
+      "reason_codes": [
+        "SYNTHETIC_TACTICAL_LIMITS_PASSED"
+      ],
+      "benchmark_id": "BENCHMARK_SYNTHETIC",
+      "cost_model_id": "synthetic-cost-v1",
+      "reference_price_dec": "99.00",
+      "evidence_links": [
+        {
+          "observation_id": "EQ1_SYNTHETIC/2026-01-15/CLOSE/1",
+          "instrument_id": "EQ1_SYNTHETIC",
+          "source_manifest_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+          "effective_at": "2026-01-15T16:00:00Z",
+          "published_at": "2026-01-15T16:01:00Z",
+          "available_at": "2026-01-15T16:05:00Z",
+          "kind": "MARKET_PRICE"
+        }
+      ],
+      "quantity_dec": "1",
+      "capital_base_dec": "100000.00",
+      "planned_loss_dec": "110.00",
+      "strategy_sleeve": "SATELLITE",
+      "model_id": "SYNTHETIC_PRICE_RULE",
+      "schema_version": "hita.decision.v1",
+      "mode": "PAPER_ONLY",
+      "status": "FROZEN",
+      "content_sha256": "8c7ab27be142368428b4c6b1831fb9b5fa3689caa436d4de5ab2d7631d0ea421"
+    },
+    {
+      "recommendation_id": "demo-add-missing-cbr",
+      "decision_at": "2026-01-15T16:30:00Z",
+      "known_as_of": "2026-01-15T16:30:00Z",
+      "instrument_id": "EQ1_SYNTHETIC",
+      "action": "CONSIDER_ADD",
+      "horizon_trading_days": 20,
+      "source_snapshot_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+      "model_version": "synthetic-price-rule-v1",
+      "risk_policy_version": "synthetic-risk-v1",
+      "policy_result": "BLOCK",
+      "reason_codes": [
+        "MISSING_APPROVED_DENOMINATOR"
+      ],
+      "benchmark_id": "BENCHMARK_SYNTHETIC",
+      "cost_model_id": "synthetic-cost-v1",
+      "reference_price_dec": "99.00",
+      "evidence_links": [
+        {
+          "observation_id": "EQ1_SYNTHETIC/2026-01-15/CLOSE/1",
+          "instrument_id": "EQ1_SYNTHETIC",
+          "source_manifest_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+          "effective_at": "2026-01-15T16:00:00Z",
+          "published_at": "2026-01-15T16:01:00Z",
+          "available_at": "2026-01-15T16:05:00Z",
+          "kind": "MARKET_PRICE"
+        }
+      ],
+      "quantity_dec": "1",
+      "capital_base_dec": null,
+      "planned_loss_dec": null,
+      "strategy_sleeve": "SATELLITE",
+      "model_id": "SYNTHETIC_PRICE_RULE",
+      "schema_version": "hita.decision.v1",
+      "mode": "PAPER_ONLY",
+      "status": "FROZEN",
+      "content_sha256": "a8803e55726d3fbac73ec647ade7a402724ee8ce52c79aeb2023a4317f8a79ee"
+    },
+    {
+      "recommendation_id": "demo-avoid",
+      "decision_at": "2026-02-13T16:30:00Z",
+      "known_as_of": "2026-02-13T16:30:00Z",
+      "instrument_id": "EQ1_SYNTHETIC",
+      "action": "AVOID",
+      "horizon_trading_days": 20,
+      "source_snapshot_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+      "model_version": "synthetic-price-rule-v1",
+      "risk_policy_version": "synthetic-risk-v1",
+      "policy_result": "ALLOW",
+      "reason_codes": [
+        "SYNTHETIC_CASH_ALTERNATIVE"
+      ],
+      "benchmark_id": "CASH_EUR",
+      "cost_model_id": "synthetic-cost-v1",
+      "reference_price_dec": "108.00",
+      "evidence_links": [
+        {
+          "observation_id": "EQ1_SYNTHETIC/2026-02-13/CLOSE/1",
+          "instrument_id": "EQ1_SYNTHETIC",
+          "source_manifest_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+          "effective_at": "2026-02-13T16:00:00Z",
+          "published_at": "2026-02-13T16:01:00Z",
+          "available_at": "2026-02-13T16:05:00Z",
+          "kind": "MARKET_PRICE"
+        }
+      ],
+      "quantity_dec": null,
+      "capital_base_dec": null,
+      "planned_loss_dec": null,
+      "strategy_sleeve": "SATELLITE",
+      "model_id": "SYNTHETIC_PRICE_RULE",
+      "schema_version": "hita.decision.v1",
+      "mode": "PAPER_ONLY",
+      "status": "FROZEN",
+      "content_sha256": "7e5e30ffe3880ac52d9acedb0ff34e55753c3389eb7b57e441a685abd481109d"
+    }
+  ],
+  "shadow_signal_book": {
+    "run_id": "shadow-1e87323a194fc0c693117ab05ad6dd9184c7ab8c8019421f02135de9656f1f88",
+    "inputs": {
+      "engine_version": "hita.shadow.v1",
+      "market_manifest_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+      "evaluated_at": "2026-03-13T17:00:00Z",
+      "recommendation_hashes": {
+        "demo-abstain": "e899032bab367639a878d853fde110d88ad16afd1171730be9fbc6c1dd2d02bf",
+        "demo-add": "8c7ab27be142368428b4c6b1831fb9b5fa3689caa436d4de5ab2d7631d0ea421",
+        "demo-add-missing-cbr": "a8803e55726d3fbac73ec647ade7a402724ee8ce52c79aeb2023a4317f8a79ee",
+        "demo-avoid": "7e5e30ffe3880ac52d9acedb0ff34e55753c3389eb7b57e441a685abd481109d"
+      }
+    },
+    "outcomes": [
+      {
+        "recommendation_id": "demo-abstain",
+        "recommendation_content_sha256": "e899032bab367639a878d853fde110d88ad16afd1171730be9fbc6c1dd2d02bf",
+        "action": "ABSTAIN",
+        "policy_result": "REVIEW",
+        "recommendation_reason_codes": [
+          "SYNTHETIC_NEUTRAL_PRICE_RANGE"
+        ],
+        "state": "MATURED",
+        "quality_gate": "VALID",
+        "reason_codes": [
+          "NO_DIRECTIONAL_CLAIM"
+        ],
+        "source_snapshot_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+        "model_version": "synthetic-price-rule-v1",
+        "risk_policy_version": "synthetic-risk-v1",
+        "decision_at": "2026-01-28T16:30:00Z",
+        "known_as_of": "2026-01-28T16:30:00Z",
+        "evaluated_at": "2026-03-13T17:00:00Z",
+        "benchmark_id": "BENCHMARK_SYNTHETIC",
+        "entry_at": "2026-01-29T09:00:00Z",
+        "horizon_at": "2026-02-25T16:00:00Z",
+        "holding_at_decision": null,
+        "asset_entry_price_dec": "103.00",
+        "asset_horizon_price_dec": "103.64",
+        "benchmark_entry_price_dec": "103.86",
+        "benchmark_horizon_price_dec": "110.47",
+        "gross_asset_return_dec": "0.0062135922330097087378640776699029126213592233009709",
+        "gross_benchmark_return_dec": "0.063643366069709223955324475255151165029847872135567",
+        "asset_excess_return_dec": "-0.057429773836699515217460397585248252408488648834596",
+        "action_counterfactual": null,
+        "action_excess_return_dec": null,
+        "observed_opportunity_dec": "-0.057429773836699515217460397585248252408488648834596",
+        "absolute_result": "NOT_APPLICABLE",
+        "relative_result": "NOT_COMPARABLE",
+        "observation_ids": [
+          "EQ1_SYNTHETIC/2026-01-29/OPEN/1",
+          "EQ1_SYNTHETIC/2026-02-25/CLOSE/1",
+          "BENCHMARK_SYNTHETIC/2026-01-29/OPEN/1",
+          "BENCHMARK_SYNTHETIC/2026-02-25/CLOSE/1"
+        ],
+        "corporate_action_ids": [],
+        "engine_version": "hita.shadow.v1",
+        "mode": "PAPER_ONLY"
+      },
+      {
+        "recommendation_id": "demo-add",
+        "recommendation_content_sha256": "8c7ab27be142368428b4c6b1831fb9b5fa3689caa436d4de5ab2d7631d0ea421",
+        "action": "CONSIDER_ADD",
+        "policy_result": "ALLOW",
+        "recommendation_reason_codes": [
+          "SYNTHETIC_TACTICAL_LIMITS_PASSED"
+        ],
+        "state": "MATURED",
+        "quality_gate": "VALID",
+        "reason_codes": [],
+        "source_snapshot_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+        "model_version": "synthetic-price-rule-v1",
+        "risk_policy_version": "synthetic-risk-v1",
+        "decision_at": "2026-01-15T16:30:00Z",
+        "known_as_of": "2026-01-15T16:30:00Z",
+        "evaluated_at": "2026-03-13T17:00:00Z",
+        "benchmark_id": "BENCHMARK_SYNTHETIC",
+        "entry_at": "2026-01-16T09:00:00Z",
+        "horizon_at": "2026-02-13T16:00:00Z",
+        "holding_at_decision": null,
+        "asset_entry_price_dec": "100.00",
+        "asset_horizon_price_dec": "108.00",
+        "benchmark_entry_price_dec": "100.00",
+        "benchmark_horizon_price_dec": "110.05",
+        "gross_asset_return_dec": "0.08",
+        "gross_benchmark_return_dec": "0.1005",
+        "asset_excess_return_dec": "-0.0205",
+        "action_counterfactual": "ENTER_ASSET_VS_BENCHMARK",
+        "action_excess_return_dec": "-0.0205",
+        "observed_opportunity_dec": null,
+        "absolute_result": "POSITIVE",
+        "relative_result": "UNDERPERFORMED",
+        "observation_ids": [
+          "EQ1_SYNTHETIC/2026-01-16/OPEN/1",
+          "EQ1_SYNTHETIC/2026-02-13/CLOSE/1",
+          "BENCHMARK_SYNTHETIC/2026-01-16/OPEN/1",
+          "BENCHMARK_SYNTHETIC/2026-02-13/CLOSE/1"
+        ],
+        "corporate_action_ids": [],
+        "engine_version": "hita.shadow.v1",
+        "mode": "PAPER_ONLY"
+      },
+      {
+        "recommendation_id": "demo-add-missing-cbr",
+        "recommendation_content_sha256": "a8803e55726d3fbac73ec647ade7a402724ee8ce52c79aeb2023a4317f8a79ee",
+        "action": "CONSIDER_ADD",
+        "policy_result": "BLOCK",
+        "recommendation_reason_codes": [
+          "MISSING_APPROVED_DENOMINATOR"
+        ],
+        "state": "MATURED",
+        "quality_gate": "POLICY_BLOCKED",
+        "reason_codes": [],
+        "source_snapshot_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+        "model_version": "synthetic-price-rule-v1",
+        "risk_policy_version": "synthetic-risk-v1",
+        "decision_at": "2026-01-15T16:30:00Z",
+        "known_as_of": "2026-01-15T16:30:00Z",
+        "evaluated_at": "2026-03-13T17:00:00Z",
+        "benchmark_id": "BENCHMARK_SYNTHETIC",
+        "entry_at": "2026-01-16T09:00:00Z",
+        "horizon_at": "2026-02-13T16:00:00Z",
+        "holding_at_decision": null,
+        "asset_entry_price_dec": "100.00",
+        "asset_horizon_price_dec": "108.00",
+        "benchmark_entry_price_dec": "100.00",
+        "benchmark_horizon_price_dec": "110.05",
+        "gross_asset_return_dec": "0.08",
+        "gross_benchmark_return_dec": "0.1005",
+        "asset_excess_return_dec": "-0.0205",
+        "action_counterfactual": "ENTER_ASSET_VS_BENCHMARK",
+        "action_excess_return_dec": "-0.0205",
+        "observed_opportunity_dec": null,
+        "absolute_result": "POSITIVE",
+        "relative_result": "UNDERPERFORMED",
+        "observation_ids": [
+          "EQ1_SYNTHETIC/2026-01-16/OPEN/1",
+          "EQ1_SYNTHETIC/2026-02-13/CLOSE/1",
+          "BENCHMARK_SYNTHETIC/2026-01-16/OPEN/1",
+          "BENCHMARK_SYNTHETIC/2026-02-13/CLOSE/1"
+        ],
+        "corporate_action_ids": [],
+        "engine_version": "hita.shadow.v1",
+        "mode": "PAPER_ONLY"
+      },
+      {
+        "recommendation_id": "demo-avoid",
+        "recommendation_content_sha256": "7e5e30ffe3880ac52d9acedb0ff34e55753c3389eb7b57e441a685abd481109d",
+        "action": "AVOID",
+        "policy_result": "ALLOW",
+        "recommendation_reason_codes": [
+          "SYNTHETIC_CASH_ALTERNATIVE"
+        ],
+        "state": "MATURED",
+        "quality_gate": "VALID",
+        "reason_codes": [],
+        "source_snapshot_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+        "model_version": "synthetic-price-rule-v1",
+        "risk_policy_version": "synthetic-risk-v1",
+        "decision_at": "2026-02-13T16:30:00Z",
+        "known_as_of": "2026-02-13T16:30:00Z",
+        "evaluated_at": "2026-03-13T17:00:00Z",
+        "benchmark_id": "CASH_EUR",
+        "entry_at": "2026-02-16T09:00:00Z",
+        "horizon_at": "2026-03-13T16:00:00Z",
+        "holding_at_decision": null,
+        "asset_entry_price_dec": "108.00",
+        "asset_horizon_price_dec": "97.20",
+        "benchmark_entry_price_dec": null,
+        "benchmark_horizon_price_dec": null,
+        "gross_asset_return_dec": "-0.1",
+        "gross_benchmark_return_dec": "0",
+        "asset_excess_return_dec": "-0.1",
+        "action_counterfactual": "BENCHMARK_VS_ENTER_ASSET",
+        "action_excess_return_dec": "0.1",
+        "observed_opportunity_dec": null,
+        "absolute_result": "NOT_APPLICABLE",
+        "relative_result": "OUTPERFORMED",
+        "observation_ids": [
+          "EQ1_SYNTHETIC/2026-02-16/OPEN/1",
+          "EQ1_SYNTHETIC/2026-03-13/CLOSE/1"
+        ],
+        "corporate_action_ids": [],
+        "engine_version": "hita.shadow.v1",
+        "mode": "PAPER_ONLY"
+      }
+    ],
+    "scorecard": {
+      "candidate_count": 4,
+      "matured_count": 4,
+      "directional_count": 3,
+      "directional_wins": 1,
+      "directional_losses": 2,
+      "directional_ties": 0,
+      "blocked_directional_count": 1,
+      "abstention_count": 1,
+      "decision_coverage_dec": "1",
+      "directional_coverage_dec": "0.75",
+      "state_counts": {
+        "UNMATURED": 0,
+        "MATURED": 4,
+        "CENSORED": 0,
+        "DATA_INSUFFICIENT": 0
+      },
+      "action_counts": {
+        "CONSIDER_ADD": 2,
+        "CONSIDER_REDUCE": 0,
+        "HOLD": 0,
+        "AVOID": 1,
+        "WATCHLIST": 0,
+        "ABSTAIN": 1
+      },
+      "policy_counts": {
+        "ALLOW": 2,
+        "BLOCK": 1,
+        "REVIEW": 1
+      },
+      "engine_version": "hita.shadow.v1",
+      "mode": "PAPER_ONLY"
+    }
+  },
+  "paper_wallet": {
+    "run_id": "wallet-e796752646582c3c28337c5c9585f27b5ee91ade224b46ac757ffdc735a5a18e",
+    "engine_version": "hita-paper-wallet-v1",
+    "mode": "PAPER_ONLY",
+    "market_manifest_id": "hita.synthetic.market.v1:8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b",
+    "currency": "EUR",
+    "as_of": "2026-03-13T17:00:00Z",
+    "config": {
+      "initial_cash_dec": "10000.00",
+      "commission_dec": "0.50",
+      "half_spread_bps_dec": "0",
+      "slippage_bps_dec": "0",
+      "cost_model_id": "synthetic-cost-v1"
+    },
+    "deposits": [],
+    "recommendation_hashes": [
+      "8c7ab27be142368428b4c6b1831fb9b5fa3689caa436d4de5ab2d7631d0ea421",
+      "a8803e55726d3fbac73ec647ade7a402724ee8ce52c79aeb2023a4317f8a79ee",
+      "e899032bab367639a878d853fde110d88ad16afd1171730be9fbc6c1dd2d02bf",
+      "7e5e30ffe3880ac52d9acedb0ff34e55753c3389eb7b57e441a685abd481109d"
+    ],
+    "settlement": "T_PLUS_ZERO",
+    "fill_policy": "NEXT_OPEN_AND_SCHEDULED_HORIZON_CLOSE_ALL_OR_NONE",
+    "volume_policy": "AGGREGATE_RECORDED_AUCTION_VOLUME_PER_BOOK",
+    "tax_policy": "ZERO_SYNTHETIC_TAX",
+    "cash_yield_dec": "0",
+    "fx_policy": "EUR_IDENTITY_NO_CONVERSION",
+    "risk_policy_version": "synthetic-risk-v1",
+    "close_publication_delay_seconds": 300,
+    "status": "VALUED",
+    "initial_cash_dec": "10000.00",
+    "ending_cash_dec": "10007.00",
+    "ending_nav_dec": "10007.00",
+    "wallet_pnl_dec": "7.00",
+    "wallet_return_dec": "0.0007",
+    "return_method": "TIME_WEIGHTED_RETURN",
+    "total_external_deposits_dec": "0",
+    "external_cash_flows": [],
+    "max_drawdown_dec": "0.00005",
+    "benchmark_ending_nav_dec": "10009.05",
+    "benchmark_return_dec": "0.000905",
+    "wallet_excess_return_dec": "-0.000205",
+    "cash_only_ending_nav_dec": "10000.00",
+    "cash_only_return_dec": "0",
+    "benchmark_policy": "MATCHED_MODEL_COMMITTED_CAPITAL_AND_SCHEDULED_AUCTIONS",
+    "orders": [
+      {
+        "order_id": "MODEL:BUY:demo-add",
+        "book": "MODEL",
+        "recommendation_id": "demo-add",
+        "originating_decision_at": "2026-01-15T16:30:00Z",
+        "instrument_id": "EQ1_SYNTHETIC",
+        "side": "BUY",
+        "eligible_at": "2026-01-16T09:00:00Z",
+        "quantity_dec": "1",
+        "status": "FILLED",
+        "reason_code": null,
+        "time_in_force": "ONE_SCHEDULED_AUCTION"
+      },
+      {
+        "order_id": "MODEL:SELL:demo-add",
+        "book": "MODEL",
+        "recommendation_id": "demo-add",
+        "originating_decision_at": "2026-01-15T16:30:00Z",
+        "instrument_id": "EQ1_SYNTHETIC",
+        "side": "SELL",
+        "eligible_at": "2026-02-13T16:00:00Z",
+        "quantity_dec": "1",
+        "status": "FILLED",
+        "reason_code": null,
+        "time_in_force": "ONE_SCHEDULED_AUCTION"
+      }
+    ],
+    "fills": [
+      {
+        "fill_id": "MODEL:BUY:demo-add",
+        "order_id": "MODEL:BUY:demo-add",
+        "book": "MODEL",
+        "recommendation_id": "demo-add",
+        "instrument_id": "EQ1_SYNTHETIC",
+        "side": "BUY",
+        "effective_at": "2026-01-16T09:00:00Z",
+        "observation_available_at": "2026-01-16T09:00:00Z",
+        "observation_id": "EQ1_SYNTHETIC/2026-01-16/OPEN/1",
+        "reference_price_dec": "100.00",
+        "execution_price_dec": "100.00",
+        "quantity_dec": "1",
+        "notional_dec": "100.00",
+        "commission_dec": "0.50",
+        "spread_slippage_cost_dec": "0.00",
+        "cash_delta_dec": "-100.50"
+      },
+      {
+        "fill_id": "MODEL:SELL:demo-add",
+        "order_id": "MODEL:SELL:demo-add",
+        "book": "MODEL",
+        "recommendation_id": "demo-add",
+        "instrument_id": "EQ1_SYNTHETIC",
+        "side": "SELL",
+        "effective_at": "2026-02-13T16:00:00Z",
+        "observation_available_at": "2026-02-13T16:05:00Z",
+        "observation_id": "EQ1_SYNTHETIC/2026-02-13/CLOSE/1",
+        "reference_price_dec": "108.00",
+        "execution_price_dec": "108.00",
+        "quantity_dec": "1",
+        "notional_dec": "108.00",
+        "commission_dec": "0.50",
+        "spread_slippage_cost_dec": "0.00",
+        "cash_delta_dec": "107.50"
+      }
+    ],
+    "cash_events": [
+      {
+        "sequence": 1,
+        "book": "MODEL",
+        "effective_at": "2026-01-15T16:30:00Z",
+        "event_type": "FUNDING",
+        "amount_dec": "10000.00",
+        "balance_dec": "10000.00"
+      },
+      {
+        "sequence": 3,
+        "book": "MODEL",
+        "effective_at": "2026-01-16T09:00:00Z",
+        "event_type": "BUY_SETTLEMENT",
+        "amount_dec": "-100.50",
+        "balance_dec": "9899.50",
+        "recommendation_id": "demo-add",
+        "order_id": "MODEL:BUY:demo-add",
+        "principal_dec": "-100.00",
+        "cost_dec": "0.50"
+      },
+      {
+        "sequence": 5,
+        "book": "MODEL",
+        "effective_at": "2026-02-13T16:00:00Z",
+        "event_type": "SELL_SETTLEMENT",
+        "amount_dec": "107.50",
+        "balance_dec": "10007.00",
+        "recommendation_id": "demo-add",
+        "order_id": "MODEL:SELL:demo-add",
+        "principal_dec": "108.00",
+        "cost_dec": "0.50"
+      }
+    ],
+    "lots": [
+      {
+        "recommendation_id": "demo-add",
+        "book": "MODEL",
+        "instrument_id": "EQ1_SYNTHETIC",
+        "entry_at": "2026-01-16T09:00:00Z",
+        "scheduled_exit_at": "2026-02-13T16:00:00Z",
+        "opening_quantity_dec": "1",
+        "quantity_dec": "0",
+        "entry_cost_basis_dec": "100.50",
+        "cost_basis_dec": "0",
+        "dividend_entitlement_dec": "0",
+        "state": "CLOSED"
+      }
+    ],
+    "lot_actions": [],
+    "benchmark": {
+      "orders": [
+        {
+          "order_id": "BENCHMARK:BUY:demo-add",
+          "book": "BENCHMARK",
+          "recommendation_id": "demo-add",
+          "originating_decision_at": "2026-01-15T16:30:00Z",
+          "instrument_id": "BENCHMARK_SYNTHETIC",
+          "side": "BUY",
+          "eligible_at": "2026-01-16T09:00:00Z",
+          "quantity_dec": "1.000000000000",
+          "status": "FILLED",
+          "reason_code": null,
+          "time_in_force": "ONE_SCHEDULED_AUCTION"
+        },
+        {
+          "order_id": "BENCHMARK:SELL:demo-add",
+          "book": "BENCHMARK",
+          "recommendation_id": "demo-add",
+          "originating_decision_at": "2026-01-15T16:30:00Z",
+          "instrument_id": "BENCHMARK_SYNTHETIC",
+          "side": "SELL",
+          "eligible_at": "2026-02-13T16:00:00Z",
+          "quantity_dec": "1.000000000000",
+          "status": "FILLED",
+          "reason_code": null,
+          "time_in_force": "ONE_SCHEDULED_AUCTION"
+        }
+      ],
+      "fills": [
+        {
+          "fill_id": "BENCHMARK:BUY:demo-add",
+          "order_id": "BENCHMARK:BUY:demo-add",
+          "book": "BENCHMARK",
+          "recommendation_id": "demo-add",
+          "instrument_id": "BENCHMARK_SYNTHETIC",
+          "side": "BUY",
+          "effective_at": "2026-01-16T09:00:00Z",
+          "observation_available_at": "2026-01-16T09:00:00Z",
+          "observation_id": "BENCHMARK_SYNTHETIC/2026-01-16/OPEN/1",
+          "reference_price_dec": "100.00",
+          "execution_price_dec": "100.00",
+          "quantity_dec": "1.000000000000",
+          "notional_dec": "100.00",
+          "commission_dec": "0.50",
+          "spread_slippage_cost_dec": "0.00",
+          "cash_delta_dec": "-100.50"
+        },
+        {
+          "fill_id": "BENCHMARK:SELL:demo-add",
+          "order_id": "BENCHMARK:SELL:demo-add",
+          "book": "BENCHMARK",
+          "recommendation_id": "demo-add",
+          "instrument_id": "BENCHMARK_SYNTHETIC",
+          "side": "SELL",
+          "effective_at": "2026-02-13T16:00:00Z",
+          "observation_available_at": "2026-02-13T16:05:00Z",
+          "observation_id": "BENCHMARK_SYNTHETIC/2026-02-13/CLOSE/1",
+          "reference_price_dec": "110.05",
+          "execution_price_dec": "110.05",
+          "quantity_dec": "1.000000000000",
+          "notional_dec": "110.05",
+          "commission_dec": "0.50",
+          "spread_slippage_cost_dec": "0.00",
+          "cash_delta_dec": "109.55"
+        }
+      ],
+      "cash_events": [
+        {
+          "sequence": 2,
+          "book": "BENCHMARK",
+          "effective_at": "2026-01-15T16:30:00Z",
+          "event_type": "FUNDING",
+          "amount_dec": "10000.00",
+          "balance_dec": "10000.00"
+        },
+        {
+          "sequence": 4,
+          "book": "BENCHMARK",
+          "effective_at": "2026-01-16T09:00:00Z",
+          "event_type": "BUY_SETTLEMENT",
+          "amount_dec": "-100.50",
+          "balance_dec": "9899.50",
+          "recommendation_id": "demo-add",
+          "order_id": "BENCHMARK:BUY:demo-add",
+          "principal_dec": "-100.00",
+          "cost_dec": "0.50"
+        },
+        {
+          "sequence": 6,
+          "book": "BENCHMARK",
+          "effective_at": "2026-02-13T16:00:00Z",
+          "event_type": "SELL_SETTLEMENT",
+          "amount_dec": "109.55",
+          "balance_dec": "10009.05",
+          "recommendation_id": "demo-add",
+          "order_id": "BENCHMARK:SELL:demo-add",
+          "principal_dec": "110.05",
+          "cost_dec": "0.50"
+        }
+      ],
+      "lots": [
+        {
+          "recommendation_id": "demo-add",
+          "book": "BENCHMARK",
+          "instrument_id": "BENCHMARK_SYNTHETIC",
+          "entry_at": "2026-01-16T09:00:00Z",
+          "scheduled_exit_at": "2026-02-13T16:00:00Z",
+          "opening_quantity_dec": "1.000000000000",
+          "quantity_dec": "0",
+          "entry_cost_basis_dec": "100.50",
+          "cost_basis_dec": "0",
+          "dividend_entitlement_dec": "0",
+          "state": "CLOSED"
+        }
+      ],
+      "lot_actions": []
+    },
+    "nav": [
+      {
+        "at": "2026-01-15T16:30:00Z",
+        "mark_at": "2026-01-15T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10000.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10000.00",
+        "benchmark_nav_dec": "10000.00",
+        "time_weighted_return_dec": "0",
+        "benchmark_time_weighted_return_dec": "0",
+        "benchmark_cash_dec": "10000.00",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-01-16T16:00:00Z",
+        "mark_at": "2026-01-16T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "100.00",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "9999.50",
+        "benchmark_nav_dec": "9999.75",
+        "time_weighted_return_dec": "-0.00005",
+        "benchmark_time_weighted_return_dec": "-0.000025",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "100.25",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-16/CLOSE/1",
+            "available_at": "2026-01-16T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "100.00",
+            "marked_value_dec": "100.00"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-16/CLOSE/1",
+            "available_at": "2026-01-16T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "100.25",
+            "marked_value_dec": "100.25"
+          }
+        ]
+      },
+      {
+        "at": "2026-01-20T16:00:00Z",
+        "mark_at": "2026-01-20T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "100.43",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "9999.93",
+        "benchmark_nav_dec": "10000.27",
+        "time_weighted_return_dec": "-0.000007",
+        "benchmark_time_weighted_return_dec": "0.000027",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "100.77",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-20/CLOSE/1",
+            "available_at": "2026-01-20T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "100.43",
+            "marked_value_dec": "100.43"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-20/CLOSE/1",
+            "available_at": "2026-01-20T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "100.77",
+            "marked_value_dec": "100.77"
+          }
+        ]
+      },
+      {
+        "at": "2026-01-21T16:00:00Z",
+        "mark_at": "2026-01-21T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "100.86",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10000.36",
+        "benchmark_nav_dec": "10000.78",
+        "time_weighted_return_dec": "0.000036",
+        "benchmark_time_weighted_return_dec": "0.000078",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "101.28",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-21/CLOSE/1",
+            "available_at": "2026-01-21T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "100.86",
+            "marked_value_dec": "100.86"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-21/CLOSE/1",
+            "available_at": "2026-01-21T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "101.28",
+            "marked_value_dec": "101.28"
+          }
+        ]
+      },
+      {
+        "at": "2026-01-22T16:00:00Z",
+        "mark_at": "2026-01-22T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "101.29",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10000.79",
+        "benchmark_nav_dec": "10001.30",
+        "time_weighted_return_dec": "0.000079",
+        "benchmark_time_weighted_return_dec": "0.00013",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "101.80",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-22/CLOSE/1",
+            "available_at": "2026-01-22T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "101.29",
+            "marked_value_dec": "101.29"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-22/CLOSE/1",
+            "available_at": "2026-01-22T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "101.80",
+            "marked_value_dec": "101.80"
+          }
+        ]
+      },
+      {
+        "at": "2026-01-23T16:00:00Z",
+        "mark_at": "2026-01-23T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "101.71",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10001.21",
+        "benchmark_nav_dec": "10001.81",
+        "time_weighted_return_dec": "0.000121",
+        "benchmark_time_weighted_return_dec": "0.000181",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "102.31",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-23/CLOSE/1",
+            "available_at": "2026-01-23T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "101.71",
+            "marked_value_dec": "101.71"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-23/CLOSE/1",
+            "available_at": "2026-01-23T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "102.31",
+            "marked_value_dec": "102.31"
+          }
+        ]
+      },
+      {
+        "at": "2026-01-26T16:00:00Z",
+        "mark_at": "2026-01-26T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "102.14",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10001.64",
+        "benchmark_nav_dec": "10002.33",
+        "time_weighted_return_dec": "0.000164",
+        "benchmark_time_weighted_return_dec": "0.000233",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "102.83",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-26/CLOSE/1",
+            "available_at": "2026-01-26T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "102.14",
+            "marked_value_dec": "102.14"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-26/CLOSE/1",
+            "available_at": "2026-01-26T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "102.83",
+            "marked_value_dec": "102.83"
+          }
+        ]
+      },
+      {
+        "at": "2026-01-27T16:00:00Z",
+        "mark_at": "2026-01-27T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "102.57",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10002.07",
+        "benchmark_nav_dec": "10002.84",
+        "time_weighted_return_dec": "0.000207",
+        "benchmark_time_weighted_return_dec": "0.000284",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "103.34",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-27/CLOSE/1",
+            "available_at": "2026-01-27T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "102.57",
+            "marked_value_dec": "102.57"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-27/CLOSE/1",
+            "available_at": "2026-01-27T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "103.34",
+            "marked_value_dec": "103.34"
+          }
+        ]
+      },
+      {
+        "at": "2026-01-28T16:00:00Z",
+        "mark_at": "2026-01-28T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "103.00",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10002.50",
+        "benchmark_nav_dec": "10003.36",
+        "time_weighted_return_dec": "0.00025",
+        "benchmark_time_weighted_return_dec": "0.000336",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "103.86",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-28/CLOSE/1",
+            "available_at": "2026-01-28T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "103.00",
+            "marked_value_dec": "103.00"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-28/CLOSE/1",
+            "available_at": "2026-01-28T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "103.86",
+            "marked_value_dec": "103.86"
+          }
+        ]
+      },
+      {
+        "at": "2026-01-29T16:00:00Z",
+        "mark_at": "2026-01-29T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "103.42",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10002.92",
+        "benchmark_nav_dec": "10003.88",
+        "time_weighted_return_dec": "0.000292",
+        "benchmark_time_weighted_return_dec": "0.000388",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "104.38",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-29/CLOSE/1",
+            "available_at": "2026-01-29T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "103.42",
+            "marked_value_dec": "103.42"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-29/CLOSE/1",
+            "available_at": "2026-01-29T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "104.38",
+            "marked_value_dec": "104.38"
+          }
+        ]
+      },
+      {
+        "at": "2026-01-30T16:00:00Z",
+        "mark_at": "2026-01-30T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "103.83",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10003.33",
+        "benchmark_nav_dec": "10004.39",
+        "time_weighted_return_dec": "0.000333",
+        "benchmark_time_weighted_return_dec": "0.000439",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "104.89",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-01-30/CLOSE/1",
+            "available_at": "2026-01-30T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "103.83",
+            "marked_value_dec": "103.83"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-01-30/CLOSE/1",
+            "available_at": "2026-01-30T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "104.89",
+            "marked_value_dec": "104.89"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-02T16:00:00Z",
+        "mark_at": "2026-02-02T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "104.25",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10003.75",
+        "benchmark_nav_dec": "10004.91",
+        "time_weighted_return_dec": "0.000375",
+        "benchmark_time_weighted_return_dec": "0.000491",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "105.41",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-02-02/CLOSE/1",
+            "available_at": "2026-02-02T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "104.25",
+            "marked_value_dec": "104.25"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-02-02/CLOSE/1",
+            "available_at": "2026-02-02T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "105.41",
+            "marked_value_dec": "105.41"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-03T16:00:00Z",
+        "mark_at": "2026-02-03T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "104.67",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10004.17",
+        "benchmark_nav_dec": "10005.42",
+        "time_weighted_return_dec": "0.000417",
+        "benchmark_time_weighted_return_dec": "0.000542",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "105.92",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-02-03/CLOSE/1",
+            "available_at": "2026-02-03T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "104.67",
+            "marked_value_dec": "104.67"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-02-03/CLOSE/1",
+            "available_at": "2026-02-03T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "105.92",
+            "marked_value_dec": "105.92"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-04T16:00:00Z",
+        "mark_at": "2026-02-04T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "105.08",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10004.58",
+        "benchmark_nav_dec": "10005.94",
+        "time_weighted_return_dec": "0.000458",
+        "benchmark_time_weighted_return_dec": "0.000594",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "106.44",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-02-04/CLOSE/1",
+            "available_at": "2026-02-04T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "105.08",
+            "marked_value_dec": "105.08"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-02-04/CLOSE/1",
+            "available_at": "2026-02-04T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "106.44",
+            "marked_value_dec": "106.44"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-05T16:00:00Z",
+        "mark_at": "2026-02-05T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "105.50",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10005.00",
+        "benchmark_nav_dec": "10006.46",
+        "time_weighted_return_dec": "0.0005",
+        "benchmark_time_weighted_return_dec": "0.000646",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "106.96",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-02-05/CLOSE/1",
+            "available_at": "2026-02-05T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "105.50",
+            "marked_value_dec": "105.50"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-02-05/CLOSE/1",
+            "available_at": "2026-02-05T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "106.96",
+            "marked_value_dec": "106.96"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-06T16:00:00Z",
+        "mark_at": "2026-02-06T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "105.92",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10005.42",
+        "benchmark_nav_dec": "10006.97",
+        "time_weighted_return_dec": "0.000542",
+        "benchmark_time_weighted_return_dec": "0.000697",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "107.47",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-02-06/CLOSE/1",
+            "available_at": "2026-02-06T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "105.92",
+            "marked_value_dec": "105.92"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-02-06/CLOSE/1",
+            "available_at": "2026-02-06T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "107.47",
+            "marked_value_dec": "107.47"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-09T16:00:00Z",
+        "mark_at": "2026-02-09T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "106.33",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10005.83",
+        "benchmark_nav_dec": "10007.49",
+        "time_weighted_return_dec": "0.000583",
+        "benchmark_time_weighted_return_dec": "0.000749",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "107.99",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-02-09/CLOSE/1",
+            "available_at": "2026-02-09T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "106.33",
+            "marked_value_dec": "106.33"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-02-09/CLOSE/1",
+            "available_at": "2026-02-09T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "107.99",
+            "marked_value_dec": "107.99"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-10T16:00:00Z",
+        "mark_at": "2026-02-10T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "106.75",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10006.25",
+        "benchmark_nav_dec": "10008.00",
+        "time_weighted_return_dec": "0.000625",
+        "benchmark_time_weighted_return_dec": "0.0008",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "108.50",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-02-10/CLOSE/1",
+            "available_at": "2026-02-10T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "106.75",
+            "marked_value_dec": "106.75"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-02-10/CLOSE/1",
+            "available_at": "2026-02-10T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "108.50",
+            "marked_value_dec": "108.50"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-11T16:00:00Z",
+        "mark_at": "2026-02-11T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "107.17",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10006.67",
+        "benchmark_nav_dec": "10008.52",
+        "time_weighted_return_dec": "0.000667",
+        "benchmark_time_weighted_return_dec": "0.000852",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "109.02",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-02-11/CLOSE/1",
+            "available_at": "2026-02-11T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "107.17",
+            "marked_value_dec": "107.17"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-02-11/CLOSE/1",
+            "available_at": "2026-02-11T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "109.02",
+            "marked_value_dec": "109.02"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-12T16:00:00Z",
+        "mark_at": "2026-02-12T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "9899.50",
+        "securities_value_dec": "107.58",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.08",
+        "benchmark_nav_dec": "10009.03",
+        "time_weighted_return_dec": "0.000708",
+        "benchmark_time_weighted_return_dec": "0.000903",
+        "benchmark_cash_dec": "9899.50",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "109.53",
+        "marks": [
+          {
+            "instrument_id": "EQ1_SYNTHETIC",
+            "observation_id": "EQ1_SYNTHETIC/2026-02-12/CLOSE/1",
+            "available_at": "2026-02-12T16:05:00Z",
+            "quantity_dec": "1",
+            "price_dec": "107.58",
+            "marked_value_dec": "107.58"
+          }
+        ],
+        "benchmark_marks": [
+          {
+            "instrument_id": "BENCHMARK_SYNTHETIC",
+            "observation_id": "BENCHMARK_SYNTHETIC/2026-02-12/CLOSE/1",
+            "available_at": "2026-02-12T16:05:00Z",
+            "quantity_dec": "1.000000000000",
+            "price_dec": "109.53",
+            "marked_value_dec": "109.53"
+          }
+        ]
+      },
+      {
+        "at": "2026-02-13T16:00:00Z",
+        "mark_at": "2026-02-13T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-16T16:00:00Z",
+        "mark_at": "2026-02-16T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-17T16:00:00Z",
+        "mark_at": "2026-02-17T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-18T16:00:00Z",
+        "mark_at": "2026-02-18T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-19T16:00:00Z",
+        "mark_at": "2026-02-19T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-20T16:00:00Z",
+        "mark_at": "2026-02-20T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-23T16:00:00Z",
+        "mark_at": "2026-02-23T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-24T16:00:00Z",
+        "mark_at": "2026-02-24T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-25T16:00:00Z",
+        "mark_at": "2026-02-25T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-26T16:00:00Z",
+        "mark_at": "2026-02-26T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-02-27T16:00:00Z",
+        "mark_at": "2026-02-27T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-02T16:00:00Z",
+        "mark_at": "2026-03-02T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-03T16:00:00Z",
+        "mark_at": "2026-03-03T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-04T16:00:00Z",
+        "mark_at": "2026-03-04T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-05T16:00:00Z",
+        "mark_at": "2026-03-05T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-06T16:00:00Z",
+        "mark_at": "2026-03-06T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-09T16:00:00Z",
+        "mark_at": "2026-03-09T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-10T16:00:00Z",
+        "mark_at": "2026-03-10T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-11T16:00:00Z",
+        "mark_at": "2026-03-11T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-12T16:00:00Z",
+        "mark_at": "2026-03-12T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-13T16:00:00Z",
+        "mark_at": "2026-03-13T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      },
+      {
+        "at": "2026-03-13T17:00:00Z",
+        "mark_at": "2026-03-13T16:00:00Z",
+        "valuation_knowledge_at": "2026-03-13T17:00:00Z",
+        "status": "VALUED",
+        "cash_dec": "10007.00",
+        "securities_value_dec": "0",
+        "receivables_dec": "0",
+        "payables_dec": "0",
+        "nav_dec": "10007.00",
+        "benchmark_nav_dec": "10009.05",
+        "time_weighted_return_dec": "0.0007",
+        "benchmark_time_weighted_return_dec": "0.000905",
+        "benchmark_cash_dec": "10009.05",
+        "benchmark_receivables_dec": "0",
+        "benchmark_securities_value_dec": "0",
+        "marks": [],
+        "benchmark_marks": []
+      }
+    ],
+    "signals": [
+      {
+        "recommendation_id": "demo-add",
+        "action": "CONSIDER_ADD",
+        "decision_at": "2026-01-15T16:30:00Z",
+        "instrument_id": "EQ1_SYNTHETIC",
+        "benchmark_id": "BENCHMARK_SYNTHETIC",
+        "disposition": "MATURED",
+        "reason_code": "HORIZON_TRADE_CLOSED",
+        "policy_result": "ALLOW",
+        "policy_reason_codes": [
+          "SYNTHETIC_TACTICAL_LIMITS_PASSED"
+        ],
+        "risk_policy_version": "synthetic-risk-v1",
+        "model_version": "synthetic-price-rule-v1",
+        "expected_entry_at": "2026-01-16T09:00:00Z",
+        "expected_exit_at": "2026-02-13T16:00:00Z",
+        "outcome_status": "MATURED",
+        "position_net_pnl_dec": "7.00",
+        "committed_capital_dec": "100.50",
+        "gross_asset_return_dec": "0.08",
+        "net_follow_return_dec": "0.0696517412935323383084577114427860696517412935323383084577114",
+        "benchmark_return_dec": "0.0900497512437810945273631840796019900497512437810945273631841",
+        "excess_return_dec": "-0.0203980099502487562189054726368159203980099502487562189054727",
+        "absolute_result": "POSITIVE",
+        "relative_result": "UNDERPERFORMED",
+        "risk_result": "COMPLIANT"
+      },
+      {
+        "recommendation_id": "demo-add-missing-cbr",
+        "action": "CONSIDER_ADD",
+        "decision_at": "2026-01-15T16:30:00Z",
+        "instrument_id": "EQ1_SYNTHETIC",
+        "benchmark_id": "BENCHMARK_SYNTHETIC",
+        "disposition": "BLOCKED",
+        "reason_code": "MISSING_APPROVED_DENOMINATOR",
+        "policy_result": "BLOCK",
+        "policy_reason_codes": [
+          "MISSING_APPROVED_DENOMINATOR"
+        ],
+        "risk_policy_version": "synthetic-risk-v1",
+        "model_version": "synthetic-price-rule-v1",
+        "expected_entry_at": null,
+        "expected_exit_at": null,
+        "outcome_status": "UNFILLED",
+        "position_net_pnl_dec": null,
+        "committed_capital_dec": null,
+        "gross_asset_return_dec": null,
+        "net_follow_return_dec": null,
+        "benchmark_return_dec": null,
+        "excess_return_dec": null,
+        "absolute_result": "NOT_APPLICABLE",
+        "relative_result": "NOT_COMPARABLE",
+        "risk_result": "UNKNOWN"
+      },
+      {
+        "recommendation_id": "demo-abstain",
+        "action": "ABSTAIN",
+        "decision_at": "2026-01-28T16:30:00Z",
+        "instrument_id": "EQ1_SYNTHETIC",
+        "benchmark_id": "BENCHMARK_SYNTHETIC",
+        "disposition": "NO_ORDER",
+        "reason_code": "SYNTHETIC_NEUTRAL_PRICE_RANGE",
+        "policy_result": "REVIEW",
+        "policy_reason_codes": [
+          "SYNTHETIC_NEUTRAL_PRICE_RANGE"
+        ],
+        "risk_policy_version": "synthetic-risk-v1",
+        "model_version": "synthetic-price-rule-v1",
+        "expected_entry_at": null,
+        "expected_exit_at": null,
+        "outcome_status": "NOT_APPLICABLE",
+        "position_net_pnl_dec": null,
+        "committed_capital_dec": null,
+        "gross_asset_return_dec": null,
+        "net_follow_return_dec": null,
+        "benchmark_return_dec": null,
+        "excess_return_dec": null,
+        "absolute_result": "NOT_APPLICABLE",
+        "relative_result": "NOT_COMPARABLE",
+        "risk_result": "UNKNOWN"
+      },
+      {
+        "recommendation_id": "demo-avoid",
+        "action": "AVOID",
+        "decision_at": "2026-02-13T16:30:00Z",
+        "instrument_id": "EQ1_SYNTHETIC",
+        "benchmark_id": "CASH_EUR",
+        "disposition": "NO_ORDER",
+        "reason_code": "SYNTHETIC_CASH_ALTERNATIVE",
+        "policy_result": "ALLOW",
+        "policy_reason_codes": [
+          "SYNTHETIC_CASH_ALTERNATIVE"
+        ],
+        "risk_policy_version": "synthetic-risk-v1",
+        "model_version": "synthetic-price-rule-v1",
+        "expected_entry_at": null,
+        "expected_exit_at": null,
+        "outcome_status": "NOT_APPLICABLE",
+        "position_net_pnl_dec": null,
+        "committed_capital_dec": null,
+        "gross_asset_return_dec": null,
+        "net_follow_return_dec": null,
+        "benchmark_return_dec": null,
+        "excess_return_dec": null,
+        "absolute_result": "NOT_APPLICABLE",
+        "relative_result": "NOT_COMPARABLE",
+        "risk_result": "UNKNOWN"
+      }
+    ]
+  }
+}
