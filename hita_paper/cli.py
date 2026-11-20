@@ -16,6 +16,7 @@ from .demo_inputs import (
 from .market import load_market
 from .recovery import copy_paper_database
 from .research import DEFAULT_EVALUATED_AT, DEFAULT_HORIZON_SESSIONS, read_research_run, run_research
+from .risk_demo import RISK_SCENARIOS, run_risk_demo
 from .shadow import SHADOW_ENGINE_VERSION, evaluate_shadow, summarize_shadow
 from .store import PaperStore
 from .wallet import WalletConfig, read_wallet_run, simulate_wallet
@@ -86,6 +87,9 @@ def main(argv=None):
     research.add_argument("--horizon-sessions", default=DEFAULT_HORIZON_SESSIONS, type=int)
     research.add_argument("--full", action="store_true", help="include dated features, predictions and outcome provenance")
 
+    risk = commands.add_parser("risk", help="review a bundled synthetic tactical risk case")
+    risk.add_argument("--scenario", choices=RISK_SCENARIOS, default="at-limit")
+
     report = commands.add_parser("report", help="read a saved evaluation by run ID")
     report.add_argument("kind", choices=("shadow", "wallet", "research"))
     report.add_argument("run_id")
@@ -112,6 +116,8 @@ def main(argv=None):
                 "predictive_metrics": run["predictive"]["metrics"],
                 "economic": run["economic"],
             }
+        elif args.command == "risk":
+            result = run_risk_demo(args.scenario)
         elif args.command in ("backup", "restore"):
             result = copy_paper_database(args.db, args.to)
         else:
