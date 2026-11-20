@@ -23,6 +23,8 @@ The [development backlog](DEVELOPMENT_BACKLOG.md) translates these milestones in
 | **M8 · Local Ollama analysis and advice agent** | Help users understand research and decide what to investigate or simulate next | Opt-in local model, read-only access to approved report data, question answering, scenario comparisons, evidence-linked advice, uncertainty, and a deterministic fallback | Numeric claims match the report and citations resolve. Missing or conflicting evidence produces a qualified answer or abstention. The agent passes scope and failure tests, and a fixed benchmark compares answer quality, usefulness and elapsed time with the deterministic report. |
 | **M9 · Controlled paper pilot** | Verify the full local workflow before calling it a supported product | Paper-shadow model promotion, monitoring, incident review, rollback and recovery practice | An approved evaluation protocol records outcomes and exclusions. A tested rollback works, model promotion requires human approval, and a versioned pilot report records remaining limits. |
 
+M5-01 adds [versioned market replay](VERSIONED_MARKET_DATA.md) for the bundled synthetic source. External-provider rights and broader model validation remain separate milestones.
+
 ## Dependencies and product boundaries
 
 - **Start with M3.** M4 and M5 can progress in parallel once the release checks are in place. M6 can use synthetic data before M7 has consent or private inputs. M8 can prototype on synthetic reports after M3. Its desktop integration depends on M6, and portfolio-aware analysis depends on the policy and data approval gates in M4 and M7. M9 requires verified recovery, risk controls and documented evaluation.

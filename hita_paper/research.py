@@ -7,7 +7,7 @@ import json
 import sqlite3
 
 from .contracts import content_digest, time_text, utc
-from .market import load_market
+from .market import DEFAULT_MARKET_VERSION, load_market
 from .research_economics import evaluate_economics
 from .research_features import build_feature_snapshot
 from .research_forecast import (
@@ -89,10 +89,13 @@ def read_research_run(store: PaperStore, run_id: str) -> dict:
     return result
 
 
-def run_research(db_path=":memory:", *, as_of=DEFAULT_EVALUATED_AT, horizon_sessions=DEFAULT_HORIZON_SESSIONS) -> dict:
+def run_research(
+    db_path=":memory:", *, as_of=DEFAULT_EVALUATED_AT, horizon_sessions=DEFAULT_HORIZON_SESSIONS,
+    market_version=DEFAULT_MARKET_VERSION,
+) -> dict:
     """Run the fixed chronological protocol and persist an append-only experiment report."""
     as_of = utc(as_of)
-    market = load_market()
+    market = load_market(market_version)
     if type(horizon_sessions) is not int or not 1 <= horizon_sessions < len(market.sessions):
         raise ValueError(f"Horizon must be between 1 and {len(market.sessions) - 1} trading sessions")
     wallet_config = WalletConfig()

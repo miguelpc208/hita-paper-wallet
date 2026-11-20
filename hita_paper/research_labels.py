@@ -84,23 +84,36 @@ def decision_time(session: Session) -> datetime:
 
 
 def _sample_id(
-    market: MarketData,
-    session: Session,
+    manifest_id: str,
+    decision_at: datetime,
     horizon_sessions: int,
     wallet_config: WalletConfig,
     instrument_id: str,
     benchmark_id: str,
 ) -> str:
     digest = content_digest({
-        "manifest_id": market.manifest_id,
+        "manifest_id": manifest_id,
         "label_version": LABEL_VERSION,
-        "decision_at": time_text(decision_time(session)),
+        "decision_at": time_text(decision_at),
         "horizon_sessions": horizon_sessions,
         "wallet_config": asdict(wallet_config),
         "instrument_id": instrument_id,
         "benchmark_id": benchmark_id,
     })
-    return f"research-{session.date.isoformat()}-h{horizon_sessions}-{digest}"
+    return f"research-{decision_at.date().isoformat()}-h{horizon_sessions}-{digest}"
+
+
+def seeded_opportunity_key(opportunity: Opportunity, wallet_config: WalletConfig, root_manifest_id: str) -> str:
+    """Keep the random control paired when a descendant manifest revises this candidate."""
+    if opportunity.source_snapshot_id == root_manifest_id:
+        return opportunity.sample_id
+    record = opportunity.recommendation
+    if record is None:
+        raise ValueError("A paired draw requires a frozen recommendation")
+    return _sample_id(
+        root_manifest_id, opportunity.decision_at, opportunity.horizon_sessions,
+        wallet_config, record.instrument_id, record.benchmark_id,
+    )
 
 
 def _declared_delistings(
@@ -168,7 +181,7 @@ def build_research_recommendation(
             "planned_loss_dec": policy.planned_loss_dec,
         }
     recommendation = Recommendation(
-        recommendation_id=_sample_id(market, session, horizon_sessions, wallet_config, instrument_id, benchmark_id),
+        recommendation_id=_sample_id(market.manifest_id, at, horizon_sessions, wallet_config, instrument_id, benchmark_id),
         decision_at=at,
         known_as_of=at,
         instrument_id=instrument_id,
@@ -210,7 +223,7 @@ def build_opportunity(
     entry = market.next_open(decision_at)
     horizon = market.horizon(entry.open_at, horizon_sessions) if entry is not None else None
     candidate = Opportunity(
-        sample_id=_sample_id(market, session, horizon_sessions, wallet_config, EQ1, BENCHMARK),
+        sample_id=_sample_id(market.manifest_id, decision_at, horizon_sessions, wallet_config, EQ1, BENCHMARK),
         source_snapshot_id=market.manifest_id,
         decision_at=decision_at,
         close_at=session.close_at,

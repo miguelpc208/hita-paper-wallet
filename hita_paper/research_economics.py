@@ -11,7 +11,7 @@ from typing import Iterable
 from .contracts import Action, PolicyResult, Recommendation, SYNTHETIC_POLICY_VERSION, content_digest, time_text, utc
 from .market import BENCHMARK, CASH, EQ1, MarketData
 from .research_forecast import HOLDOUT, ForecastRow
-from .research_labels import Opportunity, build_research_recommendation, decision_time
+from .research_labels import Opportunity, build_research_recommendation, decision_time, seeded_opportunity_key
 from .shadow import evaluate_shadow, summarize_shadow
 from .store import PaperStore
 from .wallet import WalletConfig, simulate_wallet
@@ -48,7 +48,8 @@ def _anchor(market: MarketData, start: datetime, config: WalletConfig) -> Recomm
 
 
 def _selection(
-    strategy: str, opportunity: Opportunity, forecast: ForecastRow | None, seed: int
+    strategy: str, opportunity: Opportunity, forecast: ForecastRow | None, seed: int,
+    *, wallet_config: WalletConfig, root_manifest_id: str,
 ) -> str:
     if not opportunity.policy_eligible:
         return "POLICY_INELIGIBLE"
@@ -57,8 +58,9 @@ def _selection(
     if strategy == "CASH":
         return "NOT_SELECTED"
     if strategy == "SEEDED_RANDOM":
-        # Keyed by candidate so absent forecasts or other rows cannot shift later draws.
-        draw = int(content_digest((seed, opportunity.sample_id))[0], 16)
+        # Use the lineage root so revisions and unrelated candidates cannot shift the draw.
+        key = seeded_opportunity_key(opportunity, wallet_config, root_manifest_id)
+        draw = int(content_digest((seed, key))[0], 16)
         return "SELECTED" if draw < 8 else "NOT_SELECTED"
     if forecast is None:
         return "NO_PREDICTION"
@@ -206,12 +208,16 @@ def evaluate_economics(
 
     anchor = _anchor(market, start, wallet_config)
     store.freeze((anchor,), market)
+    root_manifest_id = market.lineage_root_manifest_id
     for strategy in _SELECTION_STRATEGIES:
         records = [anchor]
         selected_ids = []
         selections = Counter()
         for item in candidates:
-            choice = _selection(strategy, item, by_candidate.get(item.sample_id), seed)
+            choice = _selection(
+                strategy, item, by_candidate.get(item.sample_id), seed,
+                wallet_config=wallet_config, root_manifest_id=root_manifest_id,
+            )
             selections[choice] += 1
             if choice == "SELECTED":
                 if item.recommendation is None:

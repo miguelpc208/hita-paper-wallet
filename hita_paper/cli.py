@@ -13,7 +13,8 @@ from .demo_inputs import (
     DEMO_INITIAL_CASH_DEC,
     demo_recommendations,
 )
-from .market import load_market
+from .market import DEFAULT_MARKET_VERSION, load_market, market_catalog, market_versions
+from .market_replay import replay_market_actions, replay_market_quote
 from .recovery import copy_paper_database
 from .research import DEFAULT_EVALUATED_AT, DEFAULT_HORIZON_SESSIONS, read_research_run, run_research
 from .shadow import SHADOW_ENGINE_VERSION, evaluate_shadow, summarize_shadow
@@ -70,9 +71,38 @@ def run_demo(db_path=":memory:", *, as_of=DEMO_EVALUATED_AT, wallet_config=None)
     }
 
 
+def _market_report(args) -> dict:
+    if args.market_command == "catalog":
+        return {
+            "data_class": "SYNTHETIC",
+            "default_market_version": DEFAULT_MARKET_VERSION,
+            "versions": market_catalog(),
+        }
+    market = load_market(args.market_version)
+    if args.market_command == "quote":
+        return replay_market_quote(market, instrument_id=args.instrument, at=args.at, known_as_of=args.known_as_of)
+    return replay_market_actions(
+        market, instrument_id=args.instrument, start_at=args.start, end_at=args.end,
+        known_as_of=args.known_as_of,
+    )
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="HITA synthetic research and paper portfolio evaluation")
     commands = parser.add_subparsers(dest="command", required=True)
+
+    market = commands.add_parser("market", help="inspect the bundled synthetic market datasets")
+    market_commands = market.add_subparsers(dest="market_command", required=True)
+    market_commands.add_parser("catalog", help="list datasets and their immutable manifests")
+    quote = market_commands.add_parser("quote", help="inspect an exact market observation as known at a cutoff")
+    quote.add_argument("--at", required=True, type=_utc)
+    actions = market_commands.add_parser("actions", help="list corporate actions known at a cutoff")
+    actions.add_argument("--start", required=True, type=_utc)
+    actions.add_argument("--end", required=True, type=_utc)
+    for market_command in (quote, actions):
+        market_command.add_argument("--instrument", required=True)
+        market_command.add_argument("--known-as-of", required=True, type=_utc)
+        market_command.add_argument("--market-version", choices=market_versions(), default=DEFAULT_MARKET_VERSION)
 
     demo = commands.add_parser("demo", help="run the end-to-end synthetic demonstration")
     demo.add_argument("--db", default=":memory:", help="paper SQLite file, or in-memory by default")
@@ -84,6 +114,7 @@ def main(argv=None):
     research.add_argument("--db", default=":memory:", help="paper SQLite file, or in-memory by default")
     research.add_argument("--as-of", default=DEFAULT_EVALUATED_AT, type=_utc)
     research.add_argument("--horizon-sessions", default=DEFAULT_HORIZON_SESSIONS, type=int)
+    research.add_argument("--market-version", choices=market_versions(), default=DEFAULT_MARKET_VERSION)
     research.add_argument("--full", action="store_true", help="include dated features, predictions and outcome provenance")
 
     report = commands.add_parser("report", help="read a saved evaluation by run ID")
@@ -101,10 +132,15 @@ def main(argv=None):
 
     args = parser.parse_args(argv)
     try:
-        if args.command == "demo":
+        if args.command == "market":
+            result = _market_report(args)
+        elif args.command == "demo":
             result = run_demo(args.db, as_of=args.as_of)
         elif args.command == "research":
-            run = run_research(args.db, as_of=args.as_of, horizon_sessions=args.horizon_sessions)
+            run = run_research(
+                args.db, as_of=args.as_of, horizon_sessions=args.horizon_sessions,
+                market_version=args.market_version,
+            )
             result = run if args.full else {
                 "run_id": run["run_id"],
                 "protocol": run["protocol"],
