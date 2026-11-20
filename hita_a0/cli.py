@@ -41,10 +41,21 @@ def build_gold001(path):
 
 def main(argv=None):
     parser=argparse.ArgumentParser(description='HITA A0 local synthetic-only accounting research')
-    parser.add_argument('command',choices=('schema','demo','inspect','audit'))
+    parser.add_argument('command',choices=('schema','demo','inspect','audit','reconcile'))
     parser.add_argument('--db',default=':memory:',help='Path to local synthetic SQLite database (no network)')
+    parser.add_argument('--scenario', choices=('matched', 'breaks'), help='Closing statement fixture for reconcile')
     args=parser.parse_args(argv)
-    if args.command=='schema':
+    if args.scenario is not None and args.command != 'reconcile':
+        parser.error('--scenario is only available for reconcile')
+    if args.command == 'reconcile':
+        from .reconciliation_demo import build_reconciliation_demo
+        if args.db != ':memory:':
+            parser.error('reconcile uses its bundled in-memory fixture')
+        result = build_reconciliation_demo(args.scenario or 'matched')
+        print(json.dumps(result, indent=2))
+        if result['status'] != 'RECONCILED':
+            raise SystemExit(2)
+    elif args.command=='schema':
         db=connect(args.db)
         try:
             migrations=apply_migrations(db)

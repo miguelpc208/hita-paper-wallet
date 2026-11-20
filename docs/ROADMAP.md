@@ -36,9 +36,9 @@ The agent answers questions such as “Why did this strategy tie cash?”, “Ho
 
 The first version uses synthetic reports from the local CLI. Users can keep the model off and use the full deterministic report. The agent can read selected report fields and suggest a next step, while users initiate any new simulation themselves. Access to reconciled personal holdings requires a separate opt-in, approved data scope, and review of the intended use and applicable obligations. See the [Ollama user stories and release checks](DEVELOPMENT_BACKLOG.md#m8--local-ollama-analysis-and-advice-agent).
 
-## Next milestone checklist
+## Verification and next work
 
-- [ ] Run the released demo and research command from a fresh Windows environment.
-- [ ] Add automated Windows and Linux release checks and publish the verification results.
-- [ ] Back up and restore a synthetic paper database and verify that both reports replay.
-- [ ] Document installation, test commands, integrity checks and recovery in one Windows guide.
+- GitHub Actions verified the Windows and Linux builds with Python 3.11 and 3.12. Recovery preserved the wallet, shadow, and research reports and their run IDs. [M3 verification](https://github.com/miguelpc208/hita-paper-wallet/pull/1)
+- The project owner reported that the tests and A0 synthetic demo integrity check passed on desktop Windows with Python 3.13.7 and SQLite 3.50.4. The desktop commands used the Python launcher. [Windows setup guide](WINDOWS_SETUP.md)
+- M4-01 adds a [synthetic reconciliation review](SYNTHETIC_RECONCILIATION.md) with traceable comparisons for cash, holdings and pending obligations.
+- M4-02 starts with a synthetic risk boundary table. Real-policy qualification depends on the approved capital-base denominator and reserve interpretation.
