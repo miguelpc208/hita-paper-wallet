@@ -10,11 +10,11 @@ import sys
 from tempfile import TemporaryDirectory
 
 
-def run_json(*args: str) -> dict:
+def run_json(*args: str, expected_exit: int = 0) -> dict:
     environment = {**os.environ, "PYTHONIOENCODING": "utf-8"}
     command = [sys.executable, *args]
     result = subprocess.run(command, capture_output=True, encoding="utf-8", env=environment)
-    if result.returncode:
+    if result.returncode != expected_exit:
         raise RuntimeError(f"{' '.join(args)} failed ({result.returncode}): {result.stderr.strip()}")
     return json.loads(result.stdout)
 
@@ -30,6 +30,11 @@ def verify() -> dict:
     expect("A0 migration count", len(schema["migrations"]), 5)
     a0 = run_json("-m", "hita_a0.cli", "demo")
     expect("A0 consolidated NAV", a0["consolidated_nav_eur"], "18811")
+
+    reconciled = run_json("-m", "hita_a0.cli", "reconcile", "--scenario", "matched")
+    exceptions = run_json("-m", "hita_a0.cli", "reconcile", "--scenario", "breaks", expected_exit=2)
+    expect("Matching statement", reconciled["status"], "RECONCILED")
+    expect("Statement with exceptions", exceptions["status"], "UNQUALIFIED")
 
     with TemporaryDirectory(prefix="hita release verification ") as temporary:
         directory = Path(temporary)
@@ -64,6 +69,7 @@ def verify() -> dict:
         "python": platform.python_version(),
         "sqlite": sqlite3.sqlite_version,
         "a0_tables": schema["tables"],
+        "reconciliation": {"matched": reconciled["status"], "breaks": exceptions["status"]},
         "paper_pnl_eur": wallet["wallet_pnl_dec"],
         "research_holdout_dates": holdout["candidate_count"],
         "research_matched_holdout_outcomes": holdout["matched_count"],

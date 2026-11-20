@@ -14,7 +14,7 @@ Use the remaining session allowance displayed by the coding client if it is avai
 
 At the start of each session pick the highest-priority story whose dependencies are satisfied. Record the story ID, a single acceptance target, files in scope, and checks to run. At the end, record the outcome, commands and results, blockers, and the first action for the next session. If verification will not fit, reduce the slice or leave it open with the missing evidence identified. Reuse this handoff instead of re-reading the full project history each day.
 
-**First ready slice** is M3-01. Build a single Windows setup and smoke-test guide around the released ZIP. A Linux-only session can prepare the guide and expected checks. A fresh Windows run is the evidence needed to mark the story accepted. M3-02 can start independently.
+**Current slice** is M4-01. Compare a reconciled synthetic statement and a statement with exceptions. Verify each difference against the statement row and the opening balance or ledger postings. M3 verification evidence is recorded in the [roadmap](ROADMAP.md#verification-and-next-work).
 
 ## M3 · Windows and local reliability
 
