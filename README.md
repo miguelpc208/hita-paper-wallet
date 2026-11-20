@@ -6,6 +6,8 @@
 
 For the synthetic recommendation and paper-wallet module, see [HITA synthetic paper wallet](docs/PAPER_WALLET.md). For the walk-forward research command and its results, see [Synthetic research baseline](docs/RESEARCH_BASELINE.md). See the [development roadmap](docs/ROADMAP.md) for upcoming milestones and acceptance criteria. Windows users can follow the [setup and verification guide](docs/WINDOWS_SETUP.md). The [synthetic reconciliation guide](docs/SYNTHETIC_RECONCILIATION.md) explains how to trace exceptions. The sections below describe the A0 baseline.
 
+The [versioned market data guide](docs/VERSIONED_MARKET_DATA.md) shows how to replay quotes, corporate actions, and corrections at a knowledge cutoff.
+
 **Estado:** protótipo técnico local A0, verificável com dados exclusivamente sintéticos. **Não é uma aplicação de trading operacional, não está certificada independentemente e não permite ordens financeiras.**
 
 ## Objetivo

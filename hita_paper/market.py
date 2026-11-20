@@ -15,10 +15,45 @@ from typing import Mapping
 from .contracts import ContractError, EvidenceLink, Recommendation, decimal_value, parse_time, utc
 
 EQ1 = "EQ1_SYNTHETIC"
+EQ2 = "EQ2_SYNTHETIC"
 BENCHMARK = "BENCHMARK_SYNTHETIC"
 CASH = "CASH_EUR"
+DEFAULT_MARKET_VERSION = "v1"
 FIXTURE_VERSION = "hita.synthetic.market.v1"
 FIXTURE_SHA256 = "8f0689e10b27e7386a27124c452b1458d8681d80b9aaa0d848ed03a3e8aba64b"
+
+
+@dataclass(frozen=True, slots=True)
+class _FixtureManifest:
+    fixture_version: str
+    filename: str
+    sha256: str
+    instrument_ids: frozenset[str]
+    parent_version: str | None = None
+
+
+_MANIFESTS: Mapping[str, _FixtureManifest] = MappingProxyType({
+    "v1": _FixtureManifest(
+        FIXTURE_VERSION, "synthetic_market_v1.json", FIXTURE_SHA256, frozenset({EQ1, BENCHMARK}),
+    ),
+    "v2": _FixtureManifest(
+        "hita.synthetic.market.v2", "synthetic_market_v2.json",
+        "6c0863fb7c60ca120ef13fc1e99402ad04f00de0ef0a1c7ccea1d6ae1772a0c2",
+        frozenset({EQ1, EQ2, BENCHMARK}), parent_version="v1",
+    ),
+})
+
+
+def market_versions() -> tuple[str, ...]:
+    """Return the selectors for the approved bundled synthetic datasets."""
+    return tuple(_MANIFESTS)
+
+
+def _version_selector(fixture_version: str) -> str:
+    for version, manifest in _MANIFESTS.items():
+        if manifest.fixture_version == fixture_version:
+            return version
+    raise ContractError("SOURCE_FIXTURE_VERSION", "Unknown bundled synthetic market fixture")
 
 
 @dataclass(frozen=True, slots=True)
@@ -99,8 +134,9 @@ class MarketData:
     )
 
     def __post_init__(self) -> None:
+        manifest = _MANIFESTS[self.version]
         if (
-            self.fixture_version != FIXTURE_VERSION or self.manifest_sha256 != FIXTURE_SHA256
+            self.manifest_sha256 != manifest.sha256
             or self.currency != "EUR" or self.price_basis != "UNADJUSTED"
             or decimal_value(self.cash_yield_dec, "cash_yield_dec") != 0
         ):
@@ -124,7 +160,11 @@ class MarketData:
         expected_fields = {s.open_at: "OPEN" for s in self.sessions}
         expected_fields.update({s.close_at: "CLOSE" for s in self.sessions})
         ids = {instrument.instrument_id for instrument in self.instruments}
-        if ids != {EQ1, BENCHMARK} or any(inst.currency != self.currency for inst in self.instruments):
+        if (
+            ids != manifest.instrument_ids or len(ids) != len(self.instruments)
+            or len({instrument.listing_id for instrument in self.instruments}) != len(self.instruments)
+            or any(inst.currency != self.currency for inst in self.instruments)
+        ):
             raise ContractError("SOURCE_FIXTURE_INSTRUMENT", "Invalid fixture instrument or currency")
 
         by_time: dict[tuple[str, datetime], list[Observation]] = {}
@@ -191,14 +231,35 @@ class MarketData:
         )
 
     @property
+    def version(self) -> str:
+        return _version_selector(self.fixture_version)
+
+    @property
     def manifest_id(self) -> str:
         return f"{self.fixture_version}:{self.manifest_sha256}"
 
+    @property
+    def lineage_root_manifest_id(self) -> str:
+        """Identify the original manifest shared by all versions in this lineage."""
+        manifest = _MANIFESTS[self.version]
+        while manifest.parent_version is not None:
+            manifest = _MANIFESTS[manifest.parent_version]
+        return f"{manifest.fixture_version}:{manifest.sha256}"
+
     def verify_fixture(self) -> None:
         """Require the exact contents of the bundled manifest at write boundaries."""
-        official = load_market()
+        official = load_market(self.version)
         if self is not official and self != official:
             raise ContractError("SOURCE_FIXTURE_CHECKSUM", "Market records differ from the bundled manifest")
+
+    def visible_revisions(self, instrument_id: str, at: datetime, known_as_of: datetime) -> tuple[Observation, ...]:
+        """Return the exact observation's released revisions from oldest to newest."""
+        self.verify_fixture()
+        if instrument_id not in _MANIFESTS[self.version].instrument_ids:
+            raise ContractError("SOURCE_FIXTURE_INSTRUMENT", "Unknown instrument in the selected market fixture")
+        revisions = self._by_time.get((instrument_id, utc(at)), ())
+        known = utc(known_as_of)
+        return tuple(row for row in revisions if row.available_at <= known)
 
     def raw_bar(self, instrument_id: str, at: datetime, known_as_of: datetime) -> Observation | None:
         """Return the revision released by the cutoff, including explicit stale observations."""
@@ -308,17 +369,30 @@ def _times(payload: dict, *keys: str) -> dict:
     return {**payload, **{key: parse_time(payload[key]) for key in keys if payload[key] is not None}}
 
 
-@lru_cache(maxsize=1)
-def load_market() -> MarketData:
-    """Load and verify the packaged immutable fixture in any installation."""
-    data = files(__package__).joinpath("synthetic_market_v1.json").read_bytes()
+def _verify_lineage(market: MarketData, parent: MarketData) -> None:
+    inherited = ("holidays", "instruments", "sessions", "observations", "corporate_actions", "fx_rates")
+    if market.calendar_id != parent.calendar_id or any(
+        not set(getattr(parent, name)).issubset(getattr(market, name)) for name in inherited
+    ):
+        raise ContractError("SOURCE_FIXTURE_LINEAGE", "A newer market version removed or changed inherited records")
+    for bar_key, revisions in parent._by_time.items():
+        if market._by_time[bar_key][:len(revisions)] != revisions:
+            raise ContractError("SOURCE_FIXTURE_LINEAGE", "A market revision precedes an inherited release")
+
+
+@lru_cache(maxsize=len(_MANIFESTS))
+def _load_market(version: str) -> MarketData:
+    manifest = _MANIFESTS[version]
+    data = files(__package__).joinpath(manifest.filename).read_bytes()
     digest = sha256(data).hexdigest()
-    if digest != FIXTURE_SHA256:
+    if digest != manifest.sha256:
         raise ContractError("SOURCE_FIXTURE_CHECKSUM", "Synthetic fixture bytes failed checksum verification")
     payload = json.loads(data)
     if payload["data_mode"] != "SYNTHETIC":
         raise ContractError("SOURCE_FIXTURE_MODE", "Synthetic market data is required")
-    return MarketData(
+    if payload["fixture_version"] != manifest.fixture_version:
+        raise ContractError("SOURCE_FIXTURE_VERSION", "Market file version does not match the registry")
+    market = MarketData(
         fixture_version=payload["fixture_version"],
         manifest_sha256=digest,
         calendar_id=payload["calendar_id"],
@@ -341,3 +415,38 @@ def load_market() -> MarketData:
             FXRate(**_times(item, "effective_at", "available_at")) for item in payload["fx_rates"]
         ),
     )
+    if manifest.parent_version is not None:
+        _verify_lineage(market, _load_market(manifest.parent_version))
+    return market
+
+
+def load_market(version: str = DEFAULT_MARKET_VERSION) -> MarketData:
+    """Load a pinned bundled synthetic dataset by its registry selector."""
+    if not isinstance(version, str) or version not in _MANIFESTS:
+        raise ContractError("SOURCE_FIXTURE_VERSION", "Unknown bundled synthetic market version")
+    return _load_market(version)
+
+
+def market_catalog() -> list[dict]:
+    """Describe the verified dataset versions and their synthetic source contract."""
+    catalog = []
+    for version, manifest in _MANIFESTS.items():
+        market = load_market(version)
+        parent_id = load_market(manifest.parent_version).manifest_id if manifest.parent_version is not None else None
+        catalog.append({
+            "version": version,
+            "fixture_version": market.fixture_version,
+            "manifest_id": market.manifest_id,
+            "manifest_sha256": market.manifest_sha256,
+            "parent_version": manifest.parent_version,
+            "parent_manifest_id": parent_id,
+            "source_id": "HITA_PROJECT_SYNTHETIC",
+            "source_contract_version": "hita.synthetic.dataset.v1",
+            "source_kind": market.data_mode,
+            "provenance": market.provenance,
+            "usage_scope": "SYNTHETIC_RESEARCH_AND_PAPER_REPLAY",
+            "instrument_ids": sorted(manifest.instrument_ids),
+            "calendar_id": market.calendar_id,
+            "currency": market.currency,
+        })
+    return catalog

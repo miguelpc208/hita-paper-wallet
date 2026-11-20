@@ -18,5 +18,5 @@ where = ["."]
 include = ["hita_a0*", "hita_paper*", "migrations"]
 
 [tool.setuptools.package-data]
-hita_paper = ["synthetic_market_v1.json"]
+hita_paper = ["synthetic_market_v1.json", "synthetic_market_v2.json"]
 migrations = ["*.sql"]

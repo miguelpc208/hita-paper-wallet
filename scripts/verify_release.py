@@ -31,6 +31,15 @@ def verify() -> dict:
     a0 = run_json("-m", "hita_a0.cli", "demo")
     expect("A0 consolidated NAV", a0["consolidated_nav_eur"], "18811")
 
+    catalog = run_json("-m", "hita_paper", "market", "catalog")
+    expect("Bundled market versions", [row["version"] for row in catalog["versions"]], ["v1", "v2"])
+    revised_quote = run_json(
+        "-m", "hita_paper", "market", "quote", "--market-version", "v2",
+        "--instrument", "EQ1_SYNTHETIC", "--at", "2026-02-13T16:00:00Z",
+        "--known-as-of", "2026-04-03T12:10:00Z",
+    )
+    expect("Installed revised quote", revised_quote["selected"]["price_dec"], "108.25")
+
     reconciled = run_json("-m", "hita_a0.cli", "reconcile", "--scenario", "matched")
     exceptions = run_json("-m", "hita_a0.cli", "reconcile", "--scenario", "breaks", expected_exit=2)
     expect("Matching statement", reconciled["status"], "RECONCILED")
@@ -69,6 +78,7 @@ def verify() -> dict:
         "python": platform.python_version(),
         "sqlite": sqlite3.sqlite_version,
         "a0_tables": schema["tables"],
+        "market_v2_revised_close_eur": revised_quote["selected"]["price_dec"],
         "reconciliation": {"matched": reconciled["status"], "breaks": exceptions["status"]},
         "paper_pnl_eur": wallet["wallet_pnl_dec"],
         "research_holdout_dates": holdout["candidate_count"],
