@@ -41,4 +41,4 @@ The first version uses synthetic reports from the local CLI. Users can keep the 
 - GitHub Actions verified the Windows and Linux builds with Python 3.11 and 3.12. Recovery preserved the wallet, shadow, and research reports and their run IDs. [M3 verification](https://github.com/miguelpc208/hita-paper-wallet/pull/1)
 - The project owner reported that the tests and A0 synthetic demo integrity check passed on desktop Windows with Python 3.13.7 and SQLite 3.50.4. The desktop commands used the Python launcher. [Windows setup guide](WINDOWS_SETUP.md)
 - M4-01 adds a [synthetic reconciliation review](SYNTHETIC_RECONCILIATION.md) with traceable comparisons for cash, holdings and pending obligations.
-- M4-02 starts with a synthetic risk boundary table. Real-policy qualification depends on the approved capital-base denominator and reserve interpretation.
+- M4-02 adds [synthetic tactical risk checks and explanations](SYNTHETIC_RISK_REVIEW.md) for exact limits, over-limit values, missing or stale evidence, and overlapping exposure. Real-policy qualification depends on the approved capital-base denominator and reserve interpretation.

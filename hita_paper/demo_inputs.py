@@ -6,6 +6,7 @@ from decimal import Context, Decimal, ROUND_HALF_EVEN, localcontext
 
 from .contracts import Action, PolicyResult, Recommendation, SYNTHETIC_POLICY_VERSION, utc
 from .market import BENCHMARK, CASH, EQ1, MarketData
+from .risk import evaluate_tactical_risk
 
 DEMO_INITIAL_CASH_DEC = "10000.00"
 DEMO_CAPITAL_BASE_DEC = "100000.00"
@@ -15,10 +16,12 @@ DEMO_EVALUATED_AT = datetime(2026, 3, 13, 17, tzinfo=UTC)
 DEMO_MODEL_VERSION = "synthetic-price-rule-v1"
 DEMO_COST_MODEL_ID = "synthetic-cost-v1"
 
-TRADE_RISK_LIMIT = Decimal("0.0015")
-POSITION_LIMIT = Decimal("0.02")
-OPEN_RISK_LIMIT = Decimal("0.006")
 _RISK_CONTEXT = Context(prec=60, rounding=ROUND_HALF_EVEN)
+_DECISION_RISK_REASONS = {
+    "SYNTHETIC_PER_TRADE_RISK_LIMIT": "TACTICAL_TRADE_RISK_LIMIT",
+    "SYNTHETIC_POSITION_SIZE_LIMIT": "TACTICAL_POSITION_LIMIT",
+    "SYNTHETIC_AGGREGATE_RISK_LIMIT": "TACTICAL_OPEN_RISK_LIMIT",
+}
 
 
 @dataclass(frozen=True, slots=True)
@@ -60,15 +63,24 @@ def assess_synthetic_add(
         position_notional = entry_ceiling * (1 + entry_price_adjustment) * quantity
         # Allow a complete loss of the unleveraged position and both fixed fees.
         planned_loss = position_notional + 2 * commission
-        reasons = []
-        if planned_loss > synthetic_capital_base * TRADE_RISK_LIMIT:
-            reasons.append("TACTICAL_TRADE_RISK_LIMIT")
-        if position_notional > synthetic_capital_base * POSITION_LIMIT:
-            reasons.append("TACTICAL_POSITION_LIMIT")
-        if open_tactical_risk + planned_loss > synthetic_capital_base * OPEN_RISK_LIMIT:
-            reasons.append("TACTICAL_OPEN_RISK_LIMIT")
-    if reasons:
-        return PolicyCheck(PolicyResult.BLOCK, tuple(reasons), format(planned_loss, "f"))
+        review = evaluate_tactical_risk(
+            capital_base=synthetic_capital_base,
+            planned_loss=planned_loss,
+            minimum_loss=planned_loss,
+            position_value=position_notional,
+            position_base=synthetic_capital_base,
+            aggregate_risk=open_tactical_risk + planned_loss,
+            aggregate_base=synthetic_capital_base,
+        )
+    if review.status == "BLOCK":
+        reasons = tuple(
+            _DECISION_RISK_REASONS[check.reason_code]
+            for check in review.checks
+            if check.reason_code in _DECISION_RISK_REASONS
+        )
+        return PolicyCheck(
+            PolicyResult.BLOCK, reasons or ("INVALID_SYNTHETIC_RISK_INPUT",), format(planned_loss, "f"),
+        )
     return PolicyCheck(
         PolicyResult.ALLOW, ("SYNTHETIC_TACTICAL_LIMITS_PASSED",), format(planned_loss, "f")
     )

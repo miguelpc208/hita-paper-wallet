@@ -16,14 +16,12 @@ from hita_a0.money import dec, quantize_cent
 
 from .contracts import Recommendation, SYNTHETIC_POLICY_VERSION
 from .market import CASH, MarketData, Observation
+from .risk import RiskCheck, check_capital_base, evaluate_tactical_risk
 
 
-ENGINE_VERSION = "hita-paper-wallet-v1"
+ENGINE_VERSION = "hita-paper-wallet-v2"
 ZERO = Decimal("0")
 QUANTITY_TICK = Decimal("0.000000000001")
-POSITION_LIMIT = Decimal("0.02")
-SIGNAL_LOSS_LIMIT = Decimal("0.0015")
-OPEN_LOSS_LIMIT = Decimal("0.006")
 CLOSE_PUBLICATION_DELAY = timedelta(minutes=5)
 WALLET_DECIMAL_CONTEXT = Context(prec=60, rounding=ROUND_HALF_EVEN)
 
@@ -364,15 +362,18 @@ class _Simulation:
                 "absolute_result": "NOT_APPLICABLE",
                 "relative_result": "NOT_COMPARABLE",
                 "risk_result": "UNKNOWN",
+                "risk_review": self._unevaluated_risk(record, "AWAITING_ENTRY_SESSION"),
             }
             self.signals[record.recommendation_id] = signal
             reason = self._decision_gate(record)
             if reason:
                 self._set(signal, *reason)
+                signal["risk_review"] = self._unevaluated_risk(record, reason[2], blocked=reason[0] == "BLOCKED")
                 continue
             entry = self.market.next_open(record.decision_at)
             if entry is None:
                 self._set(signal, "UNFILLED", "DATA_INSUFFICIENT", "NO_FUTURE_SESSION_IN_FIXTURE")
+                signal["risk_review"] = self._unevaluated_risk(record, "NO_FUTURE_SESSION_IN_FIXTURE")
                 continue
             horizon = self.market.horizon(entry.open_at, record.horizon_trading_days)
             exit_at = horizon.close_at if horizon else None
@@ -465,33 +466,102 @@ class _Simulation:
             return trade, "INSUFFICIENT_CASH"
         return trade, None
 
-    def _risk_reason(self, record: Recommendation, at: datetime, trade: _Trade) -> str | None:
+    def _risk_evidence(
+        self, record: Recommendation, assessed_at: datetime, known_as_of: datetime,
+        observation_ids: Iterable[str],
+    ) -> dict:
+        return {
+            "evaluated_at": _time(assessed_at),
+            "known_as_of": _time(known_as_of),
+            "source_manifest_id": self.market.manifest_id,
+            "recommendation_sha256": record.content_sha256,
+            "evidence_observation_ids": list(dict.fromkeys(observation_ids)),
+            "cost_model_id": self.config.cost_model_id,
+        }
+
+    def _unevaluated_risk(
+        self, record: Recommendation, reason: str, *, at: datetime | None = None,
+        observation: Observation | None = None, blocked: bool = False,
+    ) -> dict:
+        checks = []
+        if at is None:
+            evidence = self._risk_evidence(
+                record, record.decision_at, record.known_as_of,
+                (item.observation_id for item in record.evidence_links),
+            )
+            if reason == "MISSING_APPROVED_DENOMINATOR":
+                checks.append(check_capital_base(None).to_dict())
+        else:
+            evidence = self._risk_evidence(
+                record, at, at, (observation.observation_id,) if observation is not None else (),
+            )
+            checks.append(RiskCheck("ENTRY_QUOTE_QUALIFICATION", "UNKNOWN", reason_code=reason).to_dict())
+        return {
+            "stage": "FROZEN_DECISION" if at is None else "PAPER_ENTRY",
+            "status": "BLOCK" if blocked else "NOT_EVALUATED",
+            "reason_code": reason,
+            "policy_version": record.risk_policy_version,
+            "capital_base_dec": record.capital_base_dec,
+            "checks": checks,
+            **evidence,
+        }
+
+    def _risk_review(self, record: Recommendation, at: datetime, trade: _Trade) -> dict:
         base = Decimal(record.capital_base_dec)
         planned = Decimal(record.planned_loss_dec)
-        if planned < -trade.cash_delta + self.commission:
-            return "PLANNED_LOSS_BELOW_ZERO_RECOVERY_BOUND"
-        if planned > base * SIGNAL_LOSS_LIMIT:
-            return "SYNTHETIC_PER_TRADE_RISK_LIMIT"
         open_lots = [lot for lot in self.model.lots.values() if lot.state != "CLOSED"]
-        if any(lot.delisted_at is not None for lot in open_lots):
-            return "UNVALUED_RISK_EXPOSURE"
         exposure = trade.quantity
         exposure_base = base
+        exposure_reason = None
+        observation_ids = [trade.observation.observation_id]
+        lot_evidence = []
         for lot in open_lots:
+            observation = None
+            qualification_reason = None
+            if lot.delisted_at is not None:
+                qualification_reason = "OPEN_LOT_DELISTED"
+            elif lot.instrument_id == record.instrument_id:
+                observation = trade.observation
+            else:
+                observation = self.market.raw_bar(lot.instrument_id, at, at)
+                if observation is None:
+                    qualification_reason = "MARKET_OBSERVATION_UNAVAILABLE"
+                elif observation.condition != "VALID":
+                    qualification_reason = f"MARKET_{observation.condition}"
+            if observation is not None:
+                observation_ids.append(observation.observation_id)
+            if exposure_reason is None:
+                exposure_reason = qualification_reason
+            lot_evidence.append({
+                "recommendation_id": lot.recommendation_id,
+                "instrument_id": lot.instrument_id,
+                "quantity_dec": _decimal(lot.active_quantity),
+                "capital_base_dec": _decimal(lot.capital_base),
+                "planned_loss_dec": _decimal(lot.planned_loss),
+                "observation_id": observation.observation_id if observation is not None else None,
+                "qualification_reason_code": qualification_reason,
+            })
             if lot.instrument_id == record.instrument_id:
                 exposure += lot.active_quantity
                 exposure_base = min(exposure_base, lot.capital_base)
-            else:
-                observation = self.market.bar(lot.instrument_id, at, at)
-                if observation is None:
-                    return "UNVALUED_RISK_EXPOSURE"
-        if exposure * max(Decimal(trade.observation.price_dec), trade.execution_price) > exposure_base * POSITION_LIMIT:
-            return "SYNTHETIC_POSITION_SIZE_LIMIT"
         aggregate_base = min((lot.capital_base for lot in open_lots), default=base)
-        aggregate_loss = sum((lot.planned_loss for lot in open_lots), planned)
-        if aggregate_loss > min(base, aggregate_base) * OPEN_LOSS_LIMIT:
-            return "SYNTHETIC_AGGREGATE_RISK_LIMIT"
-        return None
+        exposure_value = exposure * max(Decimal(trade.observation.price_dec), trade.execution_price)
+        review = evaluate_tactical_risk(
+            capital_base=base,
+            planned_loss=planned,
+            minimum_loss=-trade.cash_delta + self.commission,
+            position_value=exposure_value if exposure_reason is None else None,
+            position_base=exposure_base,
+            aggregate_risk=sum((lot.planned_loss for lot in open_lots), planned) if exposure_reason is None else None,
+            aggregate_base=min(base, aggregate_base),
+            exposure_reason=exposure_reason,
+        )
+        return {
+            "stage": "PAPER_ENTRY",
+            **review.to_dict(),
+            **self._risk_evidence(record, at, at, observation_ids),
+            "open_lots": lot_evidence,
+        }
 
     def _entry(self, record: Recommendation, at: datetime, exit_at: datetime | None) -> None:
         signal = self.signals[record.recommendation_id]
@@ -499,10 +569,15 @@ class _Simulation:
         if quote is None:
             self._order(self.model, record, record.instrument_id, at, "BUY", record.quantity_dec, "EXPIRED", reason)
             self._set(signal, "UNFILLED", "UNFILLED", reason)
+            signal["risk_review"] = self._unevaluated_risk(
+                record, reason, at=at, observation=self.market.raw_bar(record.instrument_id, at, at),
+            )
             return
         quantity = Decimal(record.quantity_dec)
         trade, rejection = self._trade(self.model, quote, quantity, "BUY")
-        risk = self._risk_reason(record, at, trade)
+        review = self._risk_review(record, at, trade)
+        signal["risk_review"] = review
+        risk = review["reason_code"]
         if risk:
             self._order(self.model, record, record.instrument_id, at, "BUY", record.quantity_dec, "REJECTED", risk)
             self._set(signal, "BLOCKED", "UNFILLED", risk)

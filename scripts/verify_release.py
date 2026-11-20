@@ -36,6 +36,11 @@ def verify() -> dict:
     expect("Matching statement", reconciled["status"], "RECONCILED")
     expect("Statement with exceptions", exceptions["status"], "UNQUALIFIED")
 
+    risk_at_limit = run_json("-m", "hita_paper", "risk", "--scenario", "at-limit")
+    risk_overlap = run_json("-m", "hita_paper", "risk", "--scenario", "overlap")
+    expect("Exact tactical limits", risk_at_limit["status"], "ALLOW")
+    expect("Overlapping position risk", risk_overlap["status"], "BLOCK")
+
     with TemporaryDirectory(prefix="hita release verification ") as temporary:
         directory = Path(temporary)
         original = str(directory / "paper database.sqlite")
@@ -46,6 +51,10 @@ def verify() -> dict:
         shadow = demo["shadow_signal_book"]
         expect("Paper P&L", wallet["wallet_pnl_dec"], "7.00")
         expect("Paper matched benchmark ending NAV", wallet["benchmark_ending_nav_dec"], "10009.05")
+        reviews = {row["recommendation_id"]: row["risk_review"] for row in wallet["signals"]}
+        expect("Normal paper entry risk", reviews["demo-add"]["status"], "ALLOW")
+        expect("Missing frozen denominator", reviews["demo-add-missing-cbr"]["reason_code"],
+               "MISSING_APPROVED_DENOMINATOR")
 
         research = run_json("-m", "hita_paper", "research", "--db", original, "--full")
         holdout = research["predictive"]["metrics"]["HOLDOUT"]
@@ -71,6 +80,7 @@ def verify() -> dict:
         "a0_tables": schema["tables"],
         "reconciliation": {"matched": reconciled["status"], "breaks": exceptions["status"]},
         "paper_pnl_eur": wallet["wallet_pnl_dec"],
+        "tactical_risk": {"at_limit": risk_at_limit["status"], "overlap": risk_overlap["status"]},
         "research_holdout_dates": holdout["candidate_count"],
         "research_matched_holdout_outcomes": holdout["matched_count"],
         "restored_reports": {kind: report["run_id"] for kind, report in (
